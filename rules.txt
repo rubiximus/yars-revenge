@@ -1,0 +1,42 @@
+Enemy base:
+-oscillates along right side of screen
+-becomes swirl with ___ probability
+	-swirls in place for ___ frames
+	-lock on to player direction
+	-fires toward locked direction
+	-after swirl leaves screen, resume oscillation after ___ frame delay
+
+Enemy shield:
+-formation of cells
+-when player runs into a cell, the player is pushed back ___ pixels
+	-when player runs into a single cell ___ times in past ___ frames, the cell is eaten
+	-eating a cell gives ___ energy
+-when a cell is hit by a player bullet, that cell is removed
+    -also remove the NE, E, SE, E.E cells (first cell removed is the left arm of a plus)
+
+Player:
+-8-direction movement
+-top/bottom screen wraparound
+-shoot bullet with fire button
+
+Cannon:
+-loaded when player touches left edge of screen
+	-costs ___ energy
+-while loaded, stays on left edge of screen but follows player's y-position
+-when loaded, fire button will fire cannon
+-cannon bullet moves horizontally
+-cannon does not count as a player bullet (player may shoot while cannon is in flight)
+-if cannon hits enemy bullet they cancel -- ___ points
+-if cannon hits enemy shield, shield is destroyed and cannon bounces backward
+	-if cannon hits player after bouncing, it is absorbed -- ___ energy
+-if cannon hits player before bounding (moving right), player is killed
+-if cannon hits base, base is destroyed
+	-normal base: ___ points
+	-in-place swirl: ___ points
+	-moving swirl: ___ points and extra life
+-if cannon reaches right edge of screen, nothing happens
+
+Safe zone:
+-vertical band in middle of screen
+-fire button has no action
+-player is safe from enemy bullet but not swirl
