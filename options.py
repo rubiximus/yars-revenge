@@ -2,7 +2,7 @@
 
 #screen constants
 window_size = (width, height) = (800, 600)
-max_framerate = 60
+max_framerate = 20#60
 black = (0, 0, 0)
 white = (255, 255, 255)
 
@@ -10,7 +10,7 @@ white = (255, 255, 255)
 font_size = 15
 
 #player options
-player_filename = "graphics/test_arrow4.png"
+player_filename = "graphics/test_arrow4_alpha.png"
 player_height = 30
 player_width = 30
 player_animation_delay = 10

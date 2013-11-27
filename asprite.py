@@ -1,6 +1,7 @@
 
 
 import pygame
+from pygame import mask
 from pygame.sprite import Sprite
 
 from vector import *
@@ -15,6 +16,7 @@ class ASprite(Sprite):
         
         self.image = pygame.image.load(sprite_filename).convert_alpha()
         self.rect = self.image.get_rect()
+        self.mask = mask.from_surface(self.image)
         
         self.speed = speed
         

@@ -26,10 +26,11 @@ class AnimatedFacingSprite(ASprite):
         #super(ASprite, self).__init__()
         
         self.delay = delay
-        self.images = split_frames(sprite_sheet, height, width)
+        self.images, self.masks = split_frames(sprite_sheet, height, width)
         
         #by default, sprite appears in upper right, facing north at frame 0
         self.image = self.images[0][0]
+        self.mask = self.masks[0][0]
         self.rect = self.image.get_rect(topleft = (0, 0))
         self.current_dir = NORTH
         self.current_frame = 0
@@ -65,7 +66,11 @@ class AnimatedFacingSprite(ASprite):
         direction_index = DIRECTIONS[self.current_dir]
         frame_index = self.current_frame
         self.image = self.images[direction_index][frame_index]
+        self.mask = self.masks[direction_index][frame_index]
         
         
     def get_direction(self):
         return self.current_dir
+        
+        
+

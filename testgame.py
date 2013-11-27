@@ -47,9 +47,7 @@ def keyboard():
         player.move(SOUTH)
         
     if key_states[K_2]:
-        print(cannon.transition_standby())
-    elif key_states[K_3]:
-        print(cannon.transition_firing())
+        cannon.transition_standby()
         
     if key_states[K_z]:
         shoot()
@@ -90,10 +88,6 @@ def collisions():
         elif shield.can_eat():
             center_cell.kill()
             shield.start_delay(frames_to_eat_cell)
-        
-        #if shield.can_eat():
-        #    center_cell.kill()
-        #    shield.start_delay()
         
     #player with cannon
     cannon_sprite = cannon.get_state()
@@ -136,9 +130,6 @@ def find_centermost_cell(cells):
         if closest_cell is None or current_dist < closest_dist:
             closest_cell = current_cell
             closest_dist = current_dist
-            
-        #if current_cell.marked:
-        #    return current_cell
 
     return closest_cell
     
@@ -165,7 +156,7 @@ def kill_player():
     
     
 def end_level():
-    print("You win!")
+    #print("You win!")
     pass
 
         

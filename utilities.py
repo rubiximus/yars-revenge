@@ -1,7 +1,7 @@
 
 
 import pygame
-from pygame import Surface
+from pygame import Surface, mask
 
 def split_frames(filename, height, width, single_row=False):
     """Splits a multi-sprite file into subsurfaces.
@@ -23,11 +23,14 @@ def split_frames(filename, height, width, single_row=False):
         return split_row(parent, parent_cols, 0, height, width)
     
     images = []
+    masks = []
     
     for row in range(parent_rows):
-        images.append( split_row(parent, parent_cols, row, height, width) )
+        current_images, current_masks = split_row(parent, parent_cols, row, height, width)
+        images.append(current_images)
+        masks.append(current_masks)
         
-    return images
+    return images, masks
     
     
 def split_row(parent, parent_cols, row, height, width):
@@ -36,9 +39,11 @@ def split_row(parent, parent_cols, row, height, width):
     """
     
     images = []
+    masks = []
     
     for col in range(parent_cols):
         current_image = parent.subsurface((col*width, row*height, width, height))
         images.append(current_image)
+        masks.append(mask.from_surface(current_image))
         
-    return images
+    return images, masks
