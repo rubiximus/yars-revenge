@@ -62,9 +62,8 @@ def collisions():
         kill_player()
     
     #player with enemy base
-    enemy_sprite = enemy.get_state()
-    if collide_mask(player, enemy_sprite):
-        #if base in moving phase, do nothing for now
+    if collide_mask(player, enemy):
+        #TODO: if base in moving phase, give player energy
         if enemy.get_state_number() == enemy.MOVING:
             pass
         #if base in moving or shooting phase, kill player
@@ -77,7 +76,8 @@ def collisions():
     #either the cell is eaten or the player is moved left until the sprites don't collide
     #in case of multiple collisions, just deal with cell closest to player's center
     #
-    #This still isn't quite right...
+    #TODO: This still isn't quite right.
+    #Should be able to eat top/bottom rows with vertical movement.
     pc_collides = spritecollide(player, shield, False, collide_mask)
     center_cell = find_centermost_cell(pc_collides)
     if center_cell is not None:
@@ -91,20 +91,22 @@ def collisions():
         
     #player with cannon
     cannon_sprite = cannon.get_state()
-    if collide_mask(player, cannon_sprite):
+    if collide_mask(player, cannon):
         #if in firing phase, kill player
         if cannon.get_state_number() == cannon.FIRING:
             kill_player()
             
     #cannon with cell
     #kill cell and reverse cannon direction
-    #assuming this will only happen for cannon in firing state
-    if spritecollide(cannon_sprite, shield, True, collide_mask):
+    #assuming this is only possible if cannon in firing state
+    #TODO: cannon only kills one cell
+    #TODO: cannon ignores cells when moving left (other bahaviors too; might need new state)
+    if spritecollide(cannon, shield, True, collide_mask):
         cannon_sprite.set_direction(WEST)
         
     #cannon with enemy base
     #end level only if cannon in firing state
-    if collide_mask(cannon_sprite, enemy_sprite) and cannon.get_state_number() == cannon.FIRING:
+    if collide_mask(cannon, enemy) and cannon.get_state_number() == cannon.FIRING:
         end_level()
     
     #player's bullet with cell

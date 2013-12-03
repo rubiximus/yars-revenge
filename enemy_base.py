@@ -35,7 +35,7 @@ from animated_facing_sprite import AnimatedFacingSprite
 from vector import *
 import options
 
-class EnemyBase():
+class EnemyBase(ASprite):
     """State manager class for the enemy base
     
     Contains class constants MOVING, SPINNING, and SHOOTING which are the
@@ -62,10 +62,9 @@ class EnemyBase():
         
     def update(self):
         self.current_state.update()
-        
-        
-    def draw(self, screen):
-        self.current_state.draw(screen)
+        self.image = self.current_state.image
+        self.rect = self.current_state.rect
+        self.mask = self.current_state.mask
         
         
     def transition_mover(self):

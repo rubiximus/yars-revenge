@@ -25,12 +25,13 @@ jump between states, but this is not recommended.
 
 from pygame import Surface, Rect
 from pygame.sprite import Sprite
+from pygame.mask import Mask
 
 from asprite import ASprite
 from vector import *
 import options
 
-class Cannon():
+class Cannon(ASprite):
     """State manager for the cannon
     
     Contains class constants DEACTIVATED, STANDBY, and FIRING which are the
@@ -56,10 +57,9 @@ class Cannon():
         
     def update(self):
         self.current_state.update()
-        
-        
-    def draw(self, screen):
-        self.current_state.draw(screen)
+        self.image = self.current_state.image
+        self.rect = self.current_state.rect
+        self.mask = self.current_state.mask
         
         
     def transition_deactivated(self):
@@ -112,6 +112,7 @@ class DeactivatedCannon(Sprite):
         
         self.image = Surface((0, 0))
         self.rect = Rect(0, 0, 0, 0)
+        self.mask = Mask((0, 0))
         
         self.STATE_NUMBER = manager.DEACTIVATED
         
