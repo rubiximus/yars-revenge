@@ -7,7 +7,8 @@ destroy the enemy base. Its behavior is split into three states:
 
 1. Deactivated (no image or behavior)
 2. Standby (visible on right side of screen; follows player's vertical position)
-3. Firing across the screen
+3. Firing across the screen (rightwards)
+4. Returning across the screen (leftwards)
 
 This behavior is implemented as a state machine. Cannon is the state manager,
 DeactivatedCannon is state 1, StandbyCannon is state 2, and FiringCannon is state 3.
@@ -34,7 +35,7 @@ import options
 class Cannon(ASprite):
     """State manager for the cannon
     
-    Contains class constants DEACTIVATED, STANDBY, and FIRING which are the
+    Contains class constants DEACTIVATED, STANDBY, FIRING, and RETURNING which are the
     state numbers for the corresponding states."""
     
     DEACTIVATED = 1
@@ -234,7 +235,9 @@ class FiringCannon(ASprite):
 
 
 class ReturningCannon(FiringCannon):
-    """State 4: moves right across the screen"""
+    """State 4: moves right across the screen
+    
+    Currently just a FiringCannon with different direction and state_number"""
 
     def __init__(self, manager, position, sprite_filename, speed):
         super(ReturningCannon, self).__init__(manager, position, sprite_filename, speed)
