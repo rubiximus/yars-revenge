@@ -90,23 +90,26 @@ def collisions():
             shield.start_delay(frames_to_eat_cell)
         
     #player with cannon
-    cannon_sprite = cannon.get_state()
     if collide_mask(player, cannon):
         #if in firing phase, kill player
         if cannon.get_state_number() == cannon.FIRING:
             kill_player()
+        #TODO: if in returning phase, give energy
+        if cannon.get_state_number() == cannon.RETURNING:
+            pass
             
     #cannon with cell
-    #kill cell and reverse cannon direction
+    #kill one cell and reverse cannon direction
     #assuming this is only possible if cannon in firing state
-    #TODO: cannon only kills one cell
-    #TODO: cannon ignores cells when moving left (other bahaviors too; might need new state)
-    if spritecollide(cannon, shield, True, collide_mask):
-        cannon_sprite.set_direction(WEST)
+    if cannon.get_state_number() == cannon.FIRING:
+        cannon_collides = spritecollide(cannon, shield, False, collide_mask)
+        if len(cannon_collides) > 0:
+            cannon_collides[0].kill()
+            cannon.transition_returning()
         
     #cannon with enemy base
     #end level only if cannon in firing state
-    if collide_mask(cannon, enemy) and cannon.get_state_number() == cannon.FIRING:
+    if cannon.get_state_number() == cannon.FIRING and collide_mask(cannon, enemy):
         end_level()
     
     #player's bullet with cell

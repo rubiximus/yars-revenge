@@ -40,6 +40,7 @@ class Cannon(ASprite):
     DEACTIVATED = 1
     STANDBY = 2
     FIRING = 3
+    RETURNING = 4
     
     def __init__(self, deactivated_args, standby_args, firing_args, target):
         """*_args are tuples of arguments; see corresponding classes' __init__()
@@ -70,6 +71,9 @@ class Cannon(ASprite):
         
     def transition_firing(self):
         return self.current_state.become_firing()
+
+    def transition_returning(self):
+        return self.current_state.become_returning()
         
         
     def start_deactivated(self):
@@ -83,6 +87,10 @@ class Cannon(ASprite):
     def start_firing(self, position):
         firing = FiringCannon(self, position, *self.firing_args)
         self.change_state(firing)
+
+    def start_returning(self, position):
+        returning = ReturningCannon(self, position, *self.firing_args)
+        self.change_state(returning)
         
         
     def change_state(self, new_state):
@@ -134,6 +142,9 @@ class DeactivatedCannon(Sprite):
         
     def become_firing(self):
         return False
+
+    def become_returning(self):
+        return False
         
 
 class StandbyCannon(ASprite):
@@ -171,6 +182,9 @@ class StandbyCannon(ASprite):
     def become_firing(self):
         self.manager.start_firing(self.rect.center)
         return True
+
+    def become_returning(self):
+        return False
         
         
 
@@ -203,10 +217,6 @@ class FiringCannon(ASprite):
             self.become_deactivated()
             
             
-    def set_direction(self, direction):
-        self.direction = direction
-            
-            
     def become_deactivated(self):
         self.manager.start_deactivated()
         return True
@@ -217,3 +227,32 @@ class FiringCannon(ASprite):
     def become_firing(self):
         return False
 
+    def become_returning(self):
+        self.manager.start_returning(self.rect.center)
+        return True
+
+
+
+class ReturningCannon(FiringCannon):
+    """State 4: moves right across the screen"""
+
+    def __init__(self, manager, position, sprite_filename, speed):
+        super(ReturningCannon, self).__init__(manager, position, sprite_filename, speed)
+
+        self.direction = WEST
+        
+        self.state_number = manager.RETURNING
+
+    
+    def become_deactivated(self):
+        self.manager.start_deactivated()
+        return True
+        
+    def become_standby(self):
+        return False
+        
+    def become_firing(self):
+        return False
+
+    def become_returning(self):
+        return False
