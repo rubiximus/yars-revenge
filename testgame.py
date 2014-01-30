@@ -45,6 +45,9 @@ def keyboard():
         player.move(NORTH)
     elif key_states[K_DOWN]:
         player.move(SOUTH)
+
+    if key_states[K_1]:
+        enemy.transition_spinner()
         
     if key_states[K_2]:
         cannon.transition_standby()

@@ -157,11 +157,7 @@ class MoverBase(ASprite):
         elif self.rect.top <= self.top:
             self.current_dir = SOUTH
             
-        #rule for changing state -- should be probabilistic/time-based later
-        key_states = key.get_pressed()
-        if key_states[K_1]: self.become_spinner()
-            
-            
+
     def become_mover(self):
         return False
     
