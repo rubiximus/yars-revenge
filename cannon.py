@@ -11,16 +11,8 @@ destroy the enemy base. Its behavior is split into three states:
 4. Returning across the screen (leftwards)
 
 This behavior is implemented as a state machine. Cannon is the state manager,
-DeactivatedCannon is state 1, StandbyCannon is state 2, and FiringCannon is state 3.
-
-State transitions operate as a conversation between the manager and the states:
-High level transition calls are allowed by calling transition_<state>() in the
-manager class. This calls a become_<state>() in the current state, which may have
-no behavior (e.g. if such a transition is not allowed) or may call a
-start_<state>() in the manager which finally changes the state.
-
-Alternatively the start_<state>() function may be called directly to force a
-jump between states, but this is not recommended.
+DeactivatedCannon is state 1, StandbyCannon is state 2, FiringCannon is state 3,
+and ReturningCannon is state 4.
 
 """
 
@@ -28,11 +20,12 @@ from pygame import Surface, Rect
 from pygame.sprite import Sprite
 from pygame.mask import Mask
 
+from statemachine import Manager, State
 from asprite import ASprite
 from vector import *
 import options
 
-class Cannon(ASprite):
+class Cannon(Manager):
     """State manager for the cannon
     
     Contains class constants DEACTIVATED, STANDBY, FIRING, and RETURNING which are the
@@ -48,6 +41,8 @@ class Cannon(ASprite):
         target is the player's sprite (the sprite to follow on standby)
         """
         
+        super(Cannon, self).__init__()
+
         self.deactivated_args = deactivated_args
         self.standby_args = standby_args
         self.firing_args = firing_args
@@ -57,59 +52,28 @@ class Cannon(ASprite):
         self.start_deactivated()
         
         
-    def update(self):
-        self.current_state.update()
-        self.image = self.current_state.image
-        self.rect = self.current_state.rect
-        self.mask = self.current_state.mask
-        
-        
-    def transition_deactivated(self):
-        return self.current_state.become_deactivated()
-        
-    def transition_standby(self):
-        return self.current_state.become_standby()
-        
-    def transition_firing(self):
-        return self.current_state.become_firing()
-
-    def transition_returning(self):
-        return self.current_state.become_returning()
-        
-        
     def start_deactivated(self):
         deactive = DeactivatedCannon(self, *self.deactivated_args)
         self.change_state(deactive)
+
         
     def start_standby(self):
         standby = StandbyCannon(self, self.target, *self.standby_args)
         self.change_state(standby)
+
         
     def start_firing(self, position):
         firing = FiringCannon(self, position, *self.firing_args)
         self.change_state(firing)
 
+
     def start_returning(self, position):
         returning = ReturningCannon(self, position, *self.firing_args)
         self.change_state(returning)
+
         
         
-    def change_state(self, new_state):
-        self.current_state = new_state
-        
-    def get_state(self):
-        return self.current_state        
-        
-    def get_state_number(self):
-        """Returns a number corresponding to the current state.
-        
-        See the docstrings for this file and for each state class to see the numbers.
-        """
-        
-        return self.current_state.STATE_NUMBER
-        
-        
-class DeactivatedCannon(Sprite):
+class DeactivatedCannon(State):
     """State 1: no image or behavior. All functions do nothing. Pretty simple.
     
     For collision simplification this class is an empty sprite with
@@ -117,38 +81,26 @@ class DeactivatedCannon(Sprite):
     """
     
     def __init__(self, manager):
-        self.manager = manager
+        super(DeactivatedCannon, self).__init__(manager)
         
-        self.image = Surface((0, 0))
-        self.rect = Rect(0, 0, 0, 0)
-        self.mask = Mask((0, 0))
+        self.sprite = Sprite()
+        self.sprite.image = Surface((0, 0))
+        self.sprite.rect = Rect(0, 0, 0, 0)
+        self.sprite.mask = Mask((0, 0))
         
         self.STATE_NUMBER = manager.DEACTIVATED
         
         
-    def update(self):
-        return
-        
-        
-    def draw(self, screen):
-        return
-        
-        
-    def become_deactivated(self):
-        return False
-    
-    def become_standby(self):
-        self.manager.start_standby()
-        return True
-        
-    def become_firing(self):
+    def transition_to(self, new_state_number):
+        if new_state_number == self.manager.STANDBY:
+            self.manager.start_standby()
+            return True
+
         return False
 
-    def become_returning(self):
-        return False
-        
 
-class StandbyCannon(ASprite):
+
+class StandbyCannon(State):
     """State 2: keeps on left side of screen and follows player's vertical position
     
     Note: will probably be animated in the future; this doesn't change behavior"""
@@ -158,38 +110,34 @@ class StandbyCannon(ASprite):
         target is the player's sprite
         """
     
-        super(StandbyCannon, self).__init__(sprite_filename, 0)
-    
-        self.manager = manager
-        self.target = target
+        super(StandbyCannon, self).__init__(manager)
         
+        self.sprite = ASprite(sprite_filename, 0)
+        self.target = target
         self.STATE_NUMBER = manager.STANDBY
         
         
     def update(self):
         """keep left, follow the target's vertical position"""
         
-        self.rect.left = 0
-        self.rect.centery = self.target.rect.centery
+        self.sprite.rect.left = 0
+        self.sprite.rect.centery = self.target.rect.centery
         
-        
-    def become_deactivated(self):
-        self.manager.start_deactivated()
-        return True
-        
-    def become_standby(self):
-        return False
-        
-    def become_firing(self):
-        self.manager.start_firing(self.rect.center)
-        return True
+    
+    def transition_to(self, new_state_number):
+        if new_state_number == self.manager.DEACTIVATED:
+            self.manager.start_deactivated()
+            return True
 
-    def become_returning(self):
-        return False
-        
-        
+        if new_state_number == self.manager.FIRING:
+            self.manager.start_firing(self.sprite.rect.center)
+            return True
 
-class FiringCannon(ASprite):
+        return False
+
+
+
+class FiringCannon(State):
     """State 3: moves in one direction (initially right) across screen
     
     Note: will probably be animated in the future; this doesn't change behavior"""
@@ -199,11 +147,10 @@ class FiringCannon(ASprite):
         position is the sprite's initial rect.center coordinate
         """
         
-        super(FiringCannon, self).__init__(sprite_filename, speed)
-        
-        self.manager = manager
-        self.rect.center = position
-        
+        super(FiringCannon, self).__init__(manager)
+
+        self.sprite = ASprite(sprite_filename, speed)
+        self.sprite.rect.center = position
         self.direction = EAST
         
         self.STATE_NUMBER = manager.FIRING
@@ -212,25 +159,23 @@ class FiringCannon(ASprite):
     def update(self):
         """move in the direction"""
         
-        self.move(self.direction)
+        self.sprite.move(self.direction)
         
-        if self.rect.left < 0 or self.rect.right >= options.width:
-            self.become_deactivated()
+        rect = self.sprite.rect
+        if rect.left < 0 or rect.right >= options.width:
+            self.transition_to(self.manager.DEACTIVATED)
             
             
-    def become_deactivated(self):
-        self.manager.start_deactivated()
-        return True
-        
-    def become_standby(self):
-        return False
-        
-    def become_firing(self):
-        return False
+    def transition_to(self, new_state_number):
+        if new_state_number == self.manager.DEACTIVATED:
+            self.manager.start_deactivated()
+            return True
 
-    def become_returning(self):
-        self.manager.start_returning(self.rect.center)
-        return True
+        if new_state_number == self.manager.RETURNING:
+            self.manager.start_returning(self.sprite.rect.center)
+            return True
+
+        return False
 
 
 
@@ -245,17 +190,3 @@ class ReturningCannon(FiringCannon):
         self.direction = WEST
         
         self.state_number = manager.RETURNING
-
-    
-    def become_deactivated(self):
-        self.manager.start_deactivated()
-        return True
-        
-    def become_standby(self):
-        return False
-        
-    def become_firing(self):
-        return False
-
-    def become_returning(self):
-        return False

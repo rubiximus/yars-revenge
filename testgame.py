@@ -47,11 +47,10 @@ def keyboard():
         player.move(SOUTH)
 
     if key_states[K_1]:
-        #enemy.transition_spinner()
         enemy.start_transition(enemy.SPINNING)
         
     if key_states[K_2]:
-        cannon.transition_standby()
+        cannon.start_transition(cannon.STANDBY)
         
     if key_states[K_z]:
         shoot()
@@ -109,7 +108,7 @@ def collisions():
         cannon_collides = spritecollide(cannon, shield, False, collide_mask)
         if len(cannon_collides) > 0:
             cannon_collides[0].kill()
-            cannon.transition_returning()
+            cannon.start_transition(cannon.RETURNING)
         
     #cannon with enemy base
     #end level only if cannon in firing state
@@ -150,7 +149,7 @@ def shoot():
     as long as options.max_player_bullets won't be exeeded
     """
     
-    if cannon.transition_firing():
+    if cannon.start_transition(cannon.FIRING):
         return        
     
     if len(player_bullets) < max_player_bullets:
