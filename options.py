@@ -2,7 +2,7 @@
 
 #screen constants
 window_size = (width, height) = (800, 600)
-max_framerate = 20#60
+max_framerate = 60
 black = (0, 0, 0)
 white = (255, 255, 255)
 
