@@ -50,6 +50,7 @@ class AnimatedFacingSprite(ASprite):
         else:
             #TODO: use vector.round_to_45(); requires it to return integer tuples
             print("That isn't a good direction you dummy!")
+            print("direction: " + str(direction))
             return
         
         super(AnimatedFacingSprite, self).move(direction)
