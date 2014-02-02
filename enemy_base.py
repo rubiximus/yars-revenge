@@ -10,7 +10,7 @@ different states:
 3. flying in a straight line as a swirl
 
 This behavior is implemented as a state machine. EnemyBase is the state manager,
-MoverBase performs state 1, SpinnerBase is state 2, and ShooterBase is state 3.
+MovingBase performs state 1, SpinningBase is state 2, and ShootingBase is state 3.
 
 """
 
@@ -46,25 +46,25 @@ class EnemyBase(Manager):
         
         self.target = target
         
-        self.mover_state = MoverBase(self, *self.mover_args)
+        self.mover_state = MovingBase(self, *self.mover_args)
         self.current_state = self.mover_state
 
         self.update()
 
 
     def start_mover(self):
-        mover = MoverBase(self, *self.mover_args)
+        mover = MovingBase(self, *self.mover_args)
         self.mover_state = mover
         self.change_state(mover)
 
 
     def start_spinner(self, position):
-        spinner = SpinnerBase(self, position, self.target, *self.spinner_args)
+        spinner = SpinningBase(self, position, self.target, *self.spinner_args)
         self.change_state(spinner)
 
 
     def start_shooter(self, position, direction):
-        shooter = ShooterBase(self, position, direction, *self.shooter_args)
+        shooter = ShootingBase(self, position, direction, *self.shooter_args)
         self.change_state(shooter)
 
 
@@ -81,10 +81,10 @@ class EnemyBase(Manager):
         return self.current_state.IS_FOLLOWABLE
         
         
-class MoverBase(State):
+class MovingBase(State):
     """State 1: Moves up and down along right side of screen.
     
-    MoverBase should be followable by the shield.
+    MovingBase should be followable by the shield.
     """
     
     def __init__(self, manager, sprite_filename, top, bottom, speed):
@@ -92,7 +92,7 @@ class MoverBase(State):
         top, bottom are the boundaries of movement (rect.top <= top, etc)
         """
         
-        super(MoverBase, self).__init__(manager)
+        super(MovingBase, self).__init__(manager)
         
         self.sprite = ASprite(sprite_filename, speed)
 
@@ -133,14 +133,14 @@ class MoverBase(State):
         return False
             
             
-class SpinnerBase(State):
+class SpinningBase(State):
     """State 2: Spins in place for a period of time. In the original game the
-    base should continue to move as in MoverBase, but currently it becomes
+    base should continue to move as in MovingBase, but currently it becomes
     stationary for simplicity reasons.
     
-    SpinnerBase should not be followable by the shield.
+    SpinningBase should not be followable by the shield.
     
-    Note:SpinnerBase.sprite is an AnimatedFacingSprite that only faces NORTH
+    Note:SpinningBase.sprite is an AnimatedFacingSprite that only faces NORTH
     """
     
     def __init__(self, manager, position, target, sprite_sheet, height, width, delay,
@@ -153,7 +153,7 @@ class SpinnerBase(State):
         shoot_time is the frame (from start) when spinner becomes shooter and begins movement
         """
         
-        super(SpinnerBase, self).__init__(manager)
+        super(SpinningBase, self).__init__(manager)
 
         self.sprite = AnimatedFacingSprite(sprite_sheet, height, width, delay, 0)
         self.sprite.rect.center = position
@@ -186,12 +186,12 @@ class SpinnerBase(State):
         return False
         
         
-class ShooterBase(State):
+class ShootingBase(State):
     """State 3: Moves ("shoots") in the given direction until offscreen.
     
-    ShooterBase should not be followable by the shield.
+    ShootingBase should not be followable by the shield.
     
-    Note:ShooterBase.sprite is an AnimatedFacingSprite that only faces NORTH
+    Note:ShootingBase.sprite is an AnimatedFacingSprite that only faces NORTH
     """
     
     def __init__(self, manager, position, direction, sprite_sheet, height, width, delay, speed):
@@ -200,7 +200,7 @@ class ShooterBase(State):
         direction is a vector
         """
         
-        super(ShooterBase, self).__init__(manager)
+        super(ShootingBase, self).__init__(manager)
 
         self.sprite = AnimatedFacingSprite(sprite_sheet, height, width, delay, speed)
         self.sprite.rect.center = position
