@@ -81,6 +81,7 @@ class EnemyBase(Manager):
         return self.current_state.IS_FOLLOWABLE
         
         
+
 class MovingBase(State):
     """State 1: Moves up and down along right side of screen.
     
@@ -122,17 +123,8 @@ class MovingBase(State):
 
         return False
             
-    def become_mover(self):
-        return False
-    
-    def become_spinner(self):
-        self.manager.start_spinner(self.sprite.rect.center)
-        return True
-        
-    def become_shooter(self):
-        return False
             
-            
+
 class SpinningBase(State):
     """State 2: Spins in place for a period of time. In the original game the
     base should continue to move as in MovingBase, but currently it becomes
@@ -186,6 +178,7 @@ class SpinningBase(State):
         return False
         
         
+
 class ShootingBase(State):
     """State 3: Moves ("shoots") in the given direction until offscreen.
     
@@ -230,4 +223,3 @@ class ShootingBase(State):
             self.manager.start_spinner(self.sprite.rect.center)
 
         return False
-        
