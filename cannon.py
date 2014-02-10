@@ -189,4 +189,4 @@ class ReturningCannon(FiringCannon):
 
         self.direction = WEST
         
-        self.state_number = manager.RETURNING
+        self.STATE_NUMBER = manager.RETURNING
