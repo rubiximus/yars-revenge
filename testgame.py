@@ -5,6 +5,7 @@ import math
 
 import pygame
 from pygame import key
+from pygame import event
 from pygame.locals import *
 from pygame.time import Clock
 from pygame.font import Font, get_default_font
@@ -21,13 +22,37 @@ from cannon import Cannon
 
 player_bullets = Group()
 
+def handle_events():
+    """Traverses events queue and executes behavior for relevant events.
+    May be used for keypress actions that only activate on key down/up.
+
+    returns True iff the QUIT event hasn't been triggered
+    or the Esc key hasn't been pressed.
+    """
+
+    for e in event.get():
+        if e.type == pygame.QUIT:
+            return False
+        
+        elif e.type == pygame.KEYDOWN:
+            if e.key == K_ESCAPE:
+                return False
+            elif e.key == K_z:
+                shoot()
+            elif e.key == K_1:
+                enemy.start_transition(enemy.SPINNING)
+            elif e.key == K_2:
+                cannon.start_transition(cannon.STANDBY)
+                
+    return True
+
+
 def keyboard():
-    """Checks for relevent keypresses and either
-    moves the player, shoots, or quits the game"""
+    """Checks for relevent keypresses and performs the corresponding action.
+	These are actions which activate any frame the key is down, e.g. moving.
+	"""
     
     key_states = key.get_pressed()
-    if key_states[K_ESCAPE]:
-        sys.exit()
         
     if key_states[K_UP] and key_states[K_RIGHT]:
         player.move(NORTHEAST)
@@ -46,16 +71,7 @@ def keyboard():
     elif key_states[K_DOWN]:
         player.move(SOUTH)
 
-    if key_states[K_1]:
-        enemy.start_transition(enemy.SPINNING)
-        
-    if key_states[K_2]:
-        cannon.start_transition(cannon.STANDBY)
-        
-    if key_states[K_z]:
-        shoot()
-        
-        
+
 def collisions():
     """Handles collisions
     """
@@ -121,8 +137,8 @@ def collisions():
     bc_collides = groupcollide(player_bullets, shield, True, False, collide_mask)
     for current_bullet in bc_collides.keys():
         shield.remove_cross(bc_collides[current_bullet][0])
-        
-    
+
+
 def find_centermost_cell(cells):
     """Given a list of Cell sprites, 
     returns the one whose rect.centery is closest to the player's rect.centery
@@ -134,14 +150,13 @@ def find_centermost_cell(cells):
     
     for current_cell in cells:
         current_dist = abs(current_cell.rect.centery - player.rect.centery)
-        #current_dist = dist(current_cell.rect.center, player.rect.center)
         if closest_cell is None or current_dist < closest_dist:
             closest_cell = current_cell
             closest_dist = current_dist
 
     return closest_cell
-    
-        
+
+
 def shoot():
     """If cannon can be fired, fires cannon.
     
@@ -156,18 +171,18 @@ def shoot():
         new_bullet = Bullet(bullet_filename, bullet_speed, 
                             player.get_rect().center, player.get_direction())
         player_bullets.add(new_bullet)
-        
-        
+
+
 def kill_player():
     #print("Die, player!")
     pass
-    
-    
+
+
 def end_level():
     #print("You win!")
     pass
 
-        
+
 def main():
     """Main program loop"""
     
@@ -183,18 +198,18 @@ def main():
     shield = EnemyShield(enemy, shield_filename, formation, formation_center)
     hbullet = HomingBullet(homer_filename, player, homer_speed)
     cannon = Cannon(deactivated_cannon_args, standby_cannon_args, firing_cannon_args, player)
+	
+    running = True
     
-    while 1:
+    while running:
         #limit framerate and prepare FPS display text
         clock.tick(max_framerate)
         fps = clock.get_fps()
         fps_text = sys_font.render("FPS: {0:.1f}".format(fps), False, white)
         
-        #check for QUIT event to prevent endless loopage
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT: sys.exit()
-            
         keyboard()
+        running = handle_events()
+        
         player.update()
         enemy.update()
         shield.update()
@@ -213,7 +228,9 @@ def main():
         cannon.draw(screen)
         player_bullets.draw(screen)
         pygame.display.update()
-        
-        
+		
+    sys.exit()
+
+
 if __name__ == '__main__':
     main()
