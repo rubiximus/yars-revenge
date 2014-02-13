@@ -49,8 +49,8 @@ def handle_events():
 
 def keyboard():
     """Checks for relevent keypresses and performs the corresponding action.
-	These are actions which activate any frame the key is down, e.g. moving.
-	"""
+    These are actions which activate any frame the key is down, e.g. moving.
+    """
     
     key_states = key.get_pressed()
         

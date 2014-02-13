@@ -1,10 +1,15 @@
 Enemy base:
--oscillates along right side of screen
+-start right screen, 1/3 from top (top position of oscillation)
+-oscillates along right side of screen, middle third
 -becomes swirl with ___ probability
 	-swirls in place for ___ frames
 	-lock on to player direction
 	-fires toward locked direction
 	-after swirl leaves screen, resume oscillation after ___ frame delay
+
+Enemy bullet:
+-start above enemy base
+-speed increases by __ per level to max of __
 
 Enemy shield:
 -formation of cells
@@ -15,6 +20,7 @@ Enemy shield:
     -also remove the NE, E, SE, E.E cells (first cell removed is the left arm of a plus)
 
 Player:
+-start in left center screen
 -8-direction movement
 -top/bottom screen wraparound
 -shoot bullet with fire button
@@ -34,9 +40,16 @@ Cannon:
 	-normal base: ___ points
 	-in-place swirl: ___ points
 	-moving swirl: ___ points and extra life
--if cannon reaches right edge of screen, nothing happens
+-if cannon reaches right edge of screen, nothing happens (becomes inactive)
 
 Safe zone:
 -vertical band in middle of screen
 -fire button has no action
 -player is safe from enemy bullet but not swirl
+
+On player death:
+-player loses 1 life and all energy
+-player spawns in usual starting place
+-enemy base resumes moving state from position immediately before death
+-enemy shield is unchanged from immediately before
+-enemy bullet spawns above enemy base
