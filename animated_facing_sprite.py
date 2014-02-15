@@ -42,16 +42,13 @@ class AnimatedFacingSprite(ASprite):
     def move(self, direction):
         """moves the sprite in the given direction
         
-        direction should be a tuple (vector.py constant)
+        direction should be a tuple representing a unit vector
         """
         
         if direction in DIRECTIONS.keys():
             self.current_dir = direction
         else:
-            #TODO: use vector.round_to_45(); requires it to return integer tuples
-            print("That isn't a good direction you dummy!")
-            print("direction: " + str(direction))
-            return
+            self.current_dir = round_to_45(direction)
         
         super(AnimatedFacingSprite, self).move(direction)
         
@@ -72,6 +69,9 @@ class AnimatedFacingSprite(ASprite):
         
     def get_direction(self):
         return self.current_dir
+
+    def set_direction(self, new_dir):
+        self.current_dir = new_dir
         
         
         
@@ -82,8 +82,6 @@ def split_frames(filename, height, width, single_row=False):
     
     returns a 2D list of Surfaces indexed [row][col]
     returns normal list when image file is one row and single_row is set to True
-    
-    TODO: return matching list of Masks
     """
     
     parent = pygame.image.load(filename).convert_alpha()

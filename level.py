@@ -45,6 +45,11 @@ class Level(GameState):
                              firing_cannon_args, self.player)
         self.player_bullets = Group()
 
+        #player starts in left center, enemy bullet starts on enemy
+        self.player.rect.midleft = (0, int(height/2))
+        self.player.set_direction(SOUTH)
+        self.hbullet.rect.center = self.enemy.rect.center
+
 
     def update(self):
         self.player.update()

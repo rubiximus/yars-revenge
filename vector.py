@@ -15,6 +15,7 @@ SOUTHEAST = (1, 1)
 NORTHWEST = (-1, -1)
 SOUTHWEST = (-1, 1)
 
+#tan(22.5) and tan(67.5) respectively
 tan225 = 0.41421356237309503
 tan675 = 2.414213562373095
 

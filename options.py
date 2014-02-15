@@ -19,8 +19,8 @@ player_args = (player_filename, player_height, player_width, player_animation_de
 
 #enemy base
 mover_filename = "graphics/mover_base.png"
-mover_top = 200
-mover_bottom = 400
+mover_top = 150
+mover_bottom = 450
 mover_speed = 2
 mover_args = (mover_filename, mover_top, mover_bottom, mover_speed)
 
