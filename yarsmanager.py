@@ -8,6 +8,7 @@ Contains the YarsManager class which is the GameManager for this game.
 
 import options
 from gamestate import GameManager
+from title import Title
 from level import Level
 
 class YarsManager(GameManager):
@@ -18,7 +19,7 @@ class YarsManager(GameManager):
     """
 
     def __init__(self):
-        super(YarsManager, self).__init__(Level(self))
+        super(YarsManager, self).__init__(Title(self))
 
     
     def game_over(self):
@@ -35,7 +36,8 @@ class YarsManager(GameManager):
         """Go to intermediate screen then start next level
         """
 
-        next_level = None
+        next_level = Level(self)
+        self.change_state(next_level)
 
         pass
 

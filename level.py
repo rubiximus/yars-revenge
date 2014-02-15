@@ -64,10 +64,7 @@ class Level(GameState):
 
     def handle_events(self, events, keys):
         for e in events:
-            if e.type == pygame.QUIT:
-                return False
-            
-            elif e.type == pygame.KEYDOWN:
+            if e.type == pygame.KEYDOWN:
                 if e.key == K_ESCAPE:
                     return False
                 elif e.key == K_z:
