@@ -71,8 +71,11 @@ class Manager(Sprite):
 
 
 class State():
-    """State is a Sprite which contains the behavior of one state as well as
+    """State contains the behavior of one state as well as
     that state's rules for transitioning to other states.
+
+    Note: State.sprite is the actual Sprite being drawn,
+    but most behavior will be handled within State
     """
 
     def __init__(self, manager):

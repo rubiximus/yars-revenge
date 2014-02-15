@@ -1,4 +1,10 @@
+"""
 
+testgame.py
+
+Basic game environment for testing sprites and behaviors
+
+"""
 
 import sys
 import math
