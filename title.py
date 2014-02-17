@@ -22,6 +22,12 @@ class Title(GameState):
     def __init__(self, manager):
         super(Title, self).__init__(manager)
 
+        sys_font = Font(get_default_font(), options.font_size)
+        self.message1 = sys_font.render("Andrew's Bitchin' Yars' Revenge Clone",
+                                        True, options.white)
+        self.message2 = sys_font.render("Press a key to start",
+                                        True, options.white)
+
 
     def handle_events(self, events, keys):
         for e in events:
@@ -37,8 +43,6 @@ class Title(GameState):
     def draw(self, screen):
         sys_font = Font(get_default_font(), options.font_size)
 
-        message1 = sys_font.render("Andrew's Bitchin' Yars' Revenge Clone", True, options.white)
-        message2 = sys_font.render("Press a key to start", True, options.white)
 
-        screen.blit(message1, message1.get_rect(center = (400, 100)))
-        screen.blit(message2, message2.get_rect(center = (400, 150)))
+        screen.blit(self.message1, self.message1.get_rect(center = (400, 100)))
+        screen.blit(self.message2, self.message2.get_rect(center = (400, 150)))

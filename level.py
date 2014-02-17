@@ -45,11 +45,8 @@ class Level(GameState):
                              firing_cannon_args, self.player)
         self.player_bullets = Group()
 
-        #player starts in left center, enemy bullet starts on enemy
-        self.player.rect.midleft = (0, int(height/2))
-        self.player.set_direction(SOUTH)
-        self.hbullet.rect.center = self.enemy.rect.center
-
+        self.reset_positions()
+        
 
     def update(self):
         self.player.update()
@@ -213,13 +210,34 @@ class Level(GameState):
             self.player_bullets.add(new_bullet)
 
 
+    def reset_positions(self):
+        """Moves sprites to their initial locations:
+        player starts in left center facing south
+        enemy bullet starts on enemy base
+        enemy base is in moving state
+        cannon is in deactivated state
+        """
+
+        self.player.rect.midleft = (10, int(height/2))
+        self.player.set_direction(SOUTH)
+        self.enemy.resume_mover_state()
+        self.enemy.update() #TODO: update State rect without needing full update
+        self.cannon.start_deactivated()
+        self.hbullet.rect.center = self.enemy.rect.center
+
+
+
+
     def kill_player(self):
-        #print("Die, player!")
-        self.manager.restart_level()
-        pass
+        print("Die, player!")
+
+        self.manager.kill_player()
+        self.reset_positions()
+
+        self.player 
 
 
     def end_level(self):
-        #print("You win!")
+        print("You win!")
+        
         self.manager.next_level()
-        pass
