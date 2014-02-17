@@ -23,10 +23,6 @@ class Title(GameState):
         super(Title, self).__init__(manager)
 
 
-    def update(self):
-        pass
-
-
     def handle_events(self, events, keys):
         for e in events:
             if e.type == pygame.KEYDOWN:

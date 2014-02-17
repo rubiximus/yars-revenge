@@ -40,11 +40,11 @@ class GameState():
 
     def update(self):
         """updates all sprites"""
-        raise NotImplementedError
+        pass
 
     def handle_events(self, events, keys):
         """handles events and keypresses"""
-        raise NotImplementedError
+        return True
 
     def draw(self, screen):
         """draws all sprites to the screen"""
