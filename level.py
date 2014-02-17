@@ -120,10 +120,11 @@ class Level(GameState):
         
         #player with enemy base
         if collide_mask(player, enemy):
-            #TODO: if base in moving phase, give player energy
+            #if base in moving phase, give player energy
             if enemy.get_state_number() == EnemyBase.MOVING:
+                self.player.give_energy(energy_from_enemy)
                 pass
-            #if base in moving or shooting phase, kill player
+            #if base in spinning or shooting phase, kill player
             if enemy.get_state_number() == EnemyBase.SPINNING:
                 self.kill_player()
             if enemy.get_state_number() == EnemyBase.SHOOTING:
@@ -151,9 +152,10 @@ class Level(GameState):
             #if in firing phase, kill player
             if cannon.get_state_number() == Cannon.FIRING:
                 self.kill_player()
-            #TODO: if in returning phase, give energy
+            #if in returning phase, give energy and deactivate cannon
             if cannon.get_state_number() == Cannon.RETURNING:
-                pass
+                cannon.start_transition(Cannon.DEACTIVATED)
+                player.give_energy(energy_from_cannon)
                 
         #cannon with cell
         #kill one cell and reverse cannon direction

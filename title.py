@@ -12,7 +12,7 @@ from pygame.font import Font, get_default_font
 
 from gamestate import GameState
 
-from options import *
+import options
 
 class Title(GameState):
     """Title is a GameState which shows a title screen and waits
@@ -29,16 +29,16 @@ class Title(GameState):
                 if e.key == K_ESCAPE:
                     return False
                 else:
-                    self.manager.next_level()
+                    self.manager.new_game()
 
         return True
 
 
     def draw(self, screen):
-        sys_font = Font(get_default_font(), font_size)
+        sys_font = Font(get_default_font(), options.font_size)
 
-        message1 = sys_font.render("Andrew's Bitchin' Yars' Revenge Clone", False, white)
-        message2 = sys_font.render("Press a key to start", False, white)
+        message1 = sys_font.render("Andrew's Bitchin' Yars' Revenge Clone", True, options.white)
+        message2 = sys_font.render("Press a key to start", True, options.white)
 
         screen.blit(message1, message1.get_rect(center = (400, 100)))
         screen.blit(message2, message2.get_rect(center = (400, 150)))

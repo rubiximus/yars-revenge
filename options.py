@@ -9,13 +9,29 @@ white = (255, 255, 255)
 #font options
 font_size = 15
 
+#score and lives
+initial_lives = 4
+
+#player energy constants -- the energy given by eating a cell,
+#touching enemy base, or catching a returning cannon shot;
+#and the cost of activating the cannon
+energy_from_cell = 1
+energy_from_enemy = 2
+energy_from_cannon = 4
+cannon_energy_cost = 5
+maximum_energy = 255
+
 #player options
 player_filename = "graphics/test_arrow4_alpha.png"
 player_height = 30
 player_width = 30
 player_animation_delay = 10
 player_speed = 5
-player_args = (player_filename, player_height, player_width, player_animation_delay, player_speed)
+player_args = (player_filename, player_height, player_width, player_animation_delay, player_speed, maximum_energy)
+
+#the number of pixels the player is pushed left when colliding with a shield cell
+cell_bounceback = 15
+frames_to_eat_cell = 15
 
 #enemy base
 mover_filename = "graphics/mover_base.png"

@@ -12,13 +12,16 @@ class Ship(AnimatedFacingSprite):
     Moves in eight directions with screen wraparound -- see move() docstring
     """
 
-    def __init__(self, sprite_sheet, height, width, delay, speed):
+    def __init__(self, sprite_sheet, height, width, delay, speed, max_energy):
         """delay is the time (in frames) spent on each image
         sprite_sheet is the filename of the sprites
         height, width are the dimensions of the sprite
         """
         
         super(Ship, self).__init__(sprite_sheet, height, width, delay, speed)
+
+        self.max_energy = max_energy
+        self.energy = 0
         
         
     def move(self, direction):
@@ -39,6 +42,29 @@ class Ship(AnimatedFacingSprite):
             self.rect.bottom = options.height
         if self.rect.bottom > options.height:
             self.rect.top = 0
+
+
+    def give_energy(self, amount):
+        """energy increases by the given amount"""
+
+        self.energy += amount
+        if self.energy > self.max_energy:
+            self.energy = self.max_energy
+        print("energy changed to " + str(self.energy))
+
+
+    def spend_energy(self, amount):
+        """energy decreases by the given amount if possible
+
+        returns True if successful
+        returns False if not enough energy; energy will be unchanged
+        """
+
+        if self.energy < amount:
+            return False
+        else:
+            self.give_energy(-amount)
+            return True
 
             
 class Bullet(ASprite):
