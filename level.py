@@ -221,7 +221,6 @@ class Level(GameState):
         self.player.rect.midleft = (10, int(height/2))
         self.player.set_direction(SOUTH)
         self.enemy.resume_mover_state()
-        self.enemy.update() #TODO: update State rect without needing full update
         self.cannon.start_deactivated()
         self.hbullet.rect.center = self.enemy.rect.center
 

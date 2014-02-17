@@ -50,6 +50,8 @@ class Cannon(Manager):
         self.target = target
         
         self.start_deactivated()
+
+        self.update_sprite_attributes()
         
         
     def start_deactivated(self):

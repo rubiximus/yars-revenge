@@ -33,6 +33,13 @@ class Manager(Sprite):
         if self.current_state is None: return
 
         self.current_state.update()
+        self.update_sprite_attributes()
+
+
+    def update_sprite_attributes(self):
+        """updates image, rect, and mask to those of the current state
+        """
+
         self.image = self.current_state.get_image()
         self.rect = self.current_state.get_rect()
         self.mask = self.current_state.get_mask()
@@ -52,6 +59,7 @@ class Manager(Sprite):
 
     def change_state(self, new_state):
         self.current_state = new_state
+        self.update_sprite_attributes()
     
 
     def get_state(self):

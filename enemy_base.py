@@ -47,9 +47,7 @@ class EnemyBase(Manager):
         self.target = target
         
         self.mover_state = MovingBase(self, *self.mover_args)
-        self.current_state = self.mover_state
-
-        self.update()
+        self.change_state(self.mover_state)
 
 
     def start_mover(self):
