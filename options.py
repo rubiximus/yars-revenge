@@ -67,7 +67,7 @@ frames_to_eat_cell = 15
 
 #homing bullet
 homer_filename = "graphics/bullet.png"
-homer_speed = 2
+homer_speed = 1
 
 #player bullet
 max_player_bullets = 1

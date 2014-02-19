@@ -68,8 +68,6 @@ class Level(GameState):
                     self.shoot()
                 elif e.key == K_1:
                     self.enemy.start_transition(EnemyBase.SPINNING)
-                elif e.key == K_2:
-                    self.cannon.start_transition(Cannon.STANDBY)
 
         if keys[K_UP] and keys[K_RIGHT]:
             self.player.move(NORTHEAST)
@@ -128,11 +126,14 @@ class Level(GameState):
                 self.kill_player()
                 
         #player with cell
-        #either the cell is eaten or the player is moved left until the sprites don't collide
-        #in case of multiple collisions, just deal with cell closest to player's center
+        #-hitting a cell will bounce the player a bit to the left
+        #-if the player hit the cell twice in a short enough span,
+        # the cell is eaten and the player gets energy
+        #-in case of multiple collisions, deal with cell closest to player's center
         #
         #TODO: This still isn't quite right.
-        #Should be able to eat top/bottom rows with vertical movement.
+        #Should be able to eat top/bottom rows with diagonal movement.
+        #(vertical movement should still move player all the way left)
         pc_collides = spritecollide(player, shield, False, collide_mask)
         center_cell = self.find_centermost_cell(pc_collides)
         if center_cell is not None:
@@ -141,11 +142,16 @@ class Level(GameState):
             if not center_cell.marked:
                 center_cell.mark()
             elif shield.can_eat():
+                player.give_energy(energy_from_cell)
                 center_cell.kill()
                 shield.start_delay(frames_to_eat_cell)
             
         #player with cannon
         if collide_mask(player, cannon):
+            #if in deactivated phase, try spending required energy to activate
+            if (cannon.get_state_number() == Cannon.DEACTIVATED and 
+                player.spend_energy(cannon_energy_cost)):
+                cannon.start_standby()
             #if in firing phase, kill player
             if cannon.get_state_number() == Cannon.FIRING:
                 self.kill_player()
@@ -212,7 +218,7 @@ class Level(GameState):
 
     def reset_positions(self):
         """Moves sprites to their initial locations:
-        player starts in left center facing south
+        player starts in left center facing south and with 0 energy
         enemy bullet starts on enemy base
         enemy base is in moving state
         cannon is in deactivated state
@@ -220,6 +226,7 @@ class Level(GameState):
 
         self.player.rect.midleft = (10, int(height/2))
         self.player.set_direction(SOUTH)
+        self.player.reset_energy()
         self.enemy.resume_mover_state()
         self.cannon.start_deactivated()
         self.hbullet.rect.center = self.enemy.rect.center

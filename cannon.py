@@ -87,8 +87,9 @@ class DeactivatedCannon(State):
         
         self.sprite = Sprite()
         self.sprite.image = Surface((0, 0))
-        self.sprite.rect = Rect(0, 0, 0, 0)
-        self.sprite.mask = Mask((0, 0))
+        self.sprite.rect = Rect(0, 0, 1, options.height)
+        self.sprite.mask = Mask((1, options.height))
+        self.sprite.mask.fill()
         
         self.STATE_NUMBER = manager.DEACTIVATED
         

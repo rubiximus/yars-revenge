@@ -50,7 +50,6 @@ class Ship(AnimatedFacingSprite):
         self.energy += amount
         if self.energy > self.max_energy:
             self.energy = self.max_energy
-        print("energy changed to " + str(self.energy))
 
 
     def spend_energy(self, amount):
@@ -65,6 +64,10 @@ class Ship(AnimatedFacingSprite):
         else:
             self.give_energy(-amount)
             return True
+            
+            
+    def reset_energy(self):
+        self.energy = 0
 
             
 class Bullet(ASprite):
