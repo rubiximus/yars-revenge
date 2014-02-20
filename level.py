@@ -117,11 +117,10 @@ class Level(GameState):
             #if base in moving phase, give player energy
             if enemy.get_state_number() == EnemyBase.MOVING:
                 self.player.give_energy(energy_from_enemy)
-                pass
             #if base in spinning or shooting phase, kill player
-            if enemy.get_state_number() == EnemyBase.SPINNING:
+            elif enemy.get_state_number() == EnemyBase.SPINNING:
                 self.kill_player()
-            if enemy.get_state_number() == EnemyBase.SHOOTING:
+            elif enemy.get_state_number() == EnemyBase.SHOOTING:
                 self.kill_player()
                 
         #player with cell
@@ -143,6 +142,7 @@ class Level(GameState):
             elif shield.can_eat():
                 player.give_energy(energy_from_cell)
                 center_cell.kill()
+                self.manager.add_score(score_cell_eat)
                 shield.start_delay(frames_to_eat_cell)
             
         #player with cannon
@@ -166,11 +166,20 @@ class Level(GameState):
             cannon_collides = spritecollide(cannon, shield, False, collide_mask)
             if len(cannon_collides) > 0:
                 cannon_collides[0].kill()
+                self.manager.add_score(score_cell_shoot)
                 cannon.start_transition(Cannon.RETURNING)
             
-        #cannon with enemy base
-        #end level only if cannon in firing state
+        #cannon with enemy base -- only if cannon in firing state
+        #give points corresponding to enemy state and end level
+        #if enemy base is in shooting state, player also gets a life
         if cannon.get_state_number() == Cannon.FIRING and collide_mask(cannon, enemy):
+            if enemy.get_state_number() == EnemyBase.MOVING:
+                self.manager.add_score(score_mover_destroy)
+            elif enemy.get_state_number() == EnemyBase.SPINNING:
+                self.manager.add_score(score_spinner_destroy)
+            elif enemy.get_state_number() == EnemyBase.SHOOTING:
+                self.manager.add_score(score_shooter_destroy)
+                self.manager.give_life()
             self.end_level()
         
         #player's bullet with cell
@@ -178,6 +187,7 @@ class Level(GameState):
         #if somehow one bullet hits multiple cells one is arbitrarily selected
         bc_collides = groupcollide(player_bullets, shield, True, False, collide_mask)
         for current_bullet in bc_collides.keys():
+            self.manager.add_score(score_cell_shoot)
             shield.remove_cross(bc_collides[current_bullet][0])
 
 

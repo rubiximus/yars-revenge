@@ -74,3 +74,15 @@ class YarsManager(GameManager):
             self.game_over()
         else:
             self.restart_level()
+
+
+    def give_life(self):
+        """Player gains a life up to a maximum"""
+
+        self.lives += 1
+
+
+    def add_score(self, amount):
+        """Increase score by given amount"""
+
+        self.score += amount

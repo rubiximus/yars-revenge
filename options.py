@@ -11,6 +11,11 @@ font_size = 15
 
 #score and lives
 initial_lives = 4
+score_cell_shoot = 69
+score_cell_eat = 169
+score_mover_destroy = 1000
+score_spinner_destroy = 2000
+score_shooter_destroy = 6000
 
 #player energy constants -- the energy given by eating a cell,
 #touching enemy base, or catching a returning cannon shot;
