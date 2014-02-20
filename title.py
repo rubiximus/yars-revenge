@@ -20,7 +20,7 @@ class Title(GameState):
     """
 
     def __init__(self, manager):
-        super(Title, self).__init__(manager)
+        GameState.__init__(self, manager)
 
         sys_font = Font(get_default_font(), options.font_size)
         self.message1 = sys_font.render("Andrew's Bitchin' Yars' Revenge Clone",

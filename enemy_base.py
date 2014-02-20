@@ -38,7 +38,7 @@ class EnemyBase(Manager):
         target is the player's sprite (the sprite to fire toward)
         """
 
-        super(EnemyBase, self).__init__()
+        Manager.__init__(self)
         
         self.mover_args = mover_args
         self.spinner_args = spinner_args
@@ -91,7 +91,7 @@ class MovingBase(State):
         top, bottom are the boundaries of movement (rect.top <= top, etc)
         """
         
-        super(MovingBase, self).__init__(manager)
+        State.__init__(self, manager)
         
         self.sprite = ASprite(sprite_filename, speed)
 
@@ -143,7 +143,7 @@ class SpinningBase(State):
         shoot_time is the frame (from start) when spinner becomes shooter and begins movement
         """
         
-        super(SpinningBase, self).__init__(manager)
+        State.__init__(self, manager)
 
         self.sprite = AnimatedFacingSprite(sprite_sheet, height, width, delay, 0)
         self.sprite.rect.center = position
@@ -191,7 +191,7 @@ class ShootingBase(State):
         direction is a vector
         """
         
-        super(ShootingBase, self).__init__(manager)
+        State.__init__(self, manager)
 
         self.sprite = AnimatedFacingSprite(sprite_sheet, height, width, delay, speed)
         self.sprite.rect.center = position
@@ -204,7 +204,7 @@ class ShootingBase(State):
         
     def update(self):
         self.sprite.update()
-        super(AnimatedFacingSprite, self.sprite).move(self.direction)
+        ASprite.move(self.sprite, self.direction)
 
         rect = self.sprite.rect
         

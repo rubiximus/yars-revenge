@@ -41,7 +41,7 @@ class Cannon(Manager):
         target is the player's sprite (the sprite to follow on standby)
         """
         
-        super(Cannon, self).__init__()
+        Manager.__init__(self)
 
         self.deactivated_args = deactivated_args
         self.standby_args = standby_args
@@ -83,7 +83,7 @@ class DeactivatedCannon(State):
     """
     
     def __init__(self, manager):
-        super(DeactivatedCannon, self).__init__(manager)
+        State.__init__(self, manager)
         
         self.sprite = Sprite()
         self.sprite.image = Surface((0, 0))
@@ -113,7 +113,7 @@ class StandbyCannon(State):
         target is the player's sprite
         """
     
-        super(StandbyCannon, self).__init__(manager)
+        State.__init__(self, manager)
         
         self.sprite = ASprite(sprite_filename, 0)
         self.target = target
@@ -150,7 +150,7 @@ class FiringCannon(State):
         position is the sprite's initial rect.center coordinate
         """
         
-        super(FiringCannon, self).__init__(manager)
+        State.__init__(self, manager)
 
         self.sprite = ASprite(sprite_filename, speed)
         self.sprite.rect.center = position
@@ -188,7 +188,7 @@ class ReturningCannon(FiringCannon):
     Currently just a FiringCannon with different direction and state_number"""
 
     def __init__(self, manager, position, sprite_filename, speed):
-        super(ReturningCannon, self).__init__(manager, position, sprite_filename, speed)
+        FiringCannon.__init__(self, manager, position, sprite_filename, speed)
 
         self.direction = WEST
         

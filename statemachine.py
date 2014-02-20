@@ -21,7 +21,7 @@ class Manager(Sprite):
     STATELESS = -1
 
     def __init(self):
-        super(Manager, self).__init__()
+        Sprite.__init__(self)
 
         self.current_state = None
         self.rect = None
@@ -87,8 +87,6 @@ class State():
     """
 
     def __init__(self, manager):
-        super(State, self).__init__()
-
         self.manager = manager
 
         self.sprite = None

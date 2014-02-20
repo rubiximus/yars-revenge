@@ -18,7 +18,7 @@ class Ship(AnimatedFacingSprite):
         height, width are the dimensions of the sprite
         """
         
-        super(Ship, self).__init__(sprite_sheet, height, width, delay, speed)
+        AnimatedFacingSprite.__init__(self, sprite_sheet, height, width, delay, speed)
 
         self.max_energy = max_energy
         self.energy = 0
@@ -29,7 +29,7 @@ class Ship(AnimatedFacingSprite):
         otherwise moves same as AnimatedFacingSprite
         """
         
-        super(Ship, self).move(direction)
+        AnimatedFacingSprite.move(self, direction)
         
         #if ship is off left or right edges, "nudge" back to the edge
         if self.rect.left < 0:
@@ -77,13 +77,13 @@ class Bullet(ASprite):
     """
     
     def __init__(self, sprite_filename, speed, position, direction):
-        super(Bullet, self).__init__(sprite_filename, speed)
+        ASprite.__init__(self, sprite_filename, speed)
         self.rect.center = position
         self.direction = direction
         
         
     def update(self):
-        super(Bullet, self).move(self.direction)
+        ASprite.move(self, self.direction)
         
         if (self.rect.left < 0 or self.rect.top < 0 or
             self.rect.right > options.width or self.rect.bottom > options.height):

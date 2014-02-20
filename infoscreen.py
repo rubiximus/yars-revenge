@@ -21,7 +21,7 @@ class InfoScreen(GameState):
     """
 
     def __init__(self, manager, score, lives, next_state):
-        super(InfoScreen, self).__init__(manager)
+        GameState.__init__(self, manager)
 
         sys_font = Font(get_default_font(), options.font_size)
         self.score_text = sys_font.render(str(score), True, options.white)

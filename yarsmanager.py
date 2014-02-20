@@ -20,7 +20,7 @@ class YarsManager(GameManager):
     """
 
     def __init__(self):
-        super(YarsManager, self).__init__(Title(self))
+        GameManager.__init__(self, Title(self))
 
     
     def new_game(self):

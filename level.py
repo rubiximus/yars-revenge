@@ -35,7 +35,7 @@ class Level(GameState):
         -end_level()
         """
 
-        super(Level, self).__init__(manager)
+        GameState.__init__(self, manager)
 
         self.player = Ship(*player_args)
         self.enemy = EnemyBase(mover_args, spinner_args, shooter_args, self.player)
@@ -235,7 +235,7 @@ class Level(GameState):
 
 
     def kill_player(self):
-        print("Die, player!")
+        print("You died.")
 
         self.manager.kill_player()
         self.reset_positions()
@@ -244,6 +244,6 @@ class Level(GameState):
 
 
     def end_level(self):
-        print("You win!")
+        print("You won the level!")
         
         self.manager.next_level()

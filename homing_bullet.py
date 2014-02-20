@@ -15,7 +15,7 @@ class HomingBullet(ASprite):
         target is the Sprite that the bullet follows
         """
         
-        super(HomingBullet, self).__init__(sprite_filename, speed)
+        ASprite.__init__(self, sprite_filename, speed)
         
         self.target = target
         self.speed = speed

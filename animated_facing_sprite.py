@@ -2,6 +2,7 @@
 
 import pygame
 from pygame import Surface, mask
+from pygame.sprite import Sprite
 
 from asprite import ASprite
 from vector import *
@@ -22,8 +23,7 @@ class AnimatedFacingSprite(ASprite):
         sprite_sheet is the filename of the sprites
         """
         
-        #doesn't seem to be needed right now
-        #super(ASprite, self).__init__()
+        Sprite.__init__(self)
         
         self.delay = delay
         self.images, self.masks = split_frames(sprite_sheet, height, width)
@@ -50,7 +50,7 @@ class AnimatedFacingSprite(ASprite):
         else:
             self.current_dir = round_to_45(direction)
         
-        super(AnimatedFacingSprite, self).move(direction)
+        ASprite.move(self, direction)
         
         
     def update(self):
