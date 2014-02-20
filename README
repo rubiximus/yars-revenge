@@ -1,3 +1,16 @@
 This is a clone of Yars' Revenge.
 
+Requirements: Python 2 or 3, Pygame
+
+Instructions:
+-Arrow keys to move
+-Z or Space to shoot
+-Touch the left side of the screen to activate cannon; requires 5 energy
+-Get energy by:
+   -eating shield cell (1 energy)
+   -touching enemy base (2 energy)
+   -catching cannon after it bounces off the shield (4 energy)
+-Hit the enemy base with the cannon to win the level
+-Don't die
+
 More news at 11.
