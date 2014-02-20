@@ -14,6 +14,8 @@ MovingBase performs state 1, SpinningBase is state 2, and ShootingBase is state 
 
 """
 
+from random import random
+
 import pygame
 from pygame.locals import *
 
@@ -86,7 +88,7 @@ class MovingBase(State):
     MovingBase should be followable by the shield.
     """
     
-    def __init__(self, manager, sprite_filename, top, bottom, speed):
+    def __init__(self, manager, sprite_filename, speed, top, bottom, avg_transition):
         """manager is the root EnemyBase object
         top, bottom are the boundaries of movement (rect.top <= top, etc)
         """
@@ -100,6 +102,8 @@ class MovingBase(State):
         self.top = top
         self.bottom = bottom
         self.current_dir = SOUTH
+
+        self.transition_probability = 1 / (avg_transition * options.max_framerate)
         
         self.STATE_NUMBER = manager.MOVING
         self.IS_FOLLOWABLE = True
@@ -107,6 +111,9 @@ class MovingBase(State):
         
     def update(self):
         self.sprite.move(self.current_dir)
+
+        if random() <= self.transition_probability:
+            self.transition_to(self.manager.SPINNING)
         
         if self.sprite.rect.bottom >= self.bottom:
             self.current_dir = NORTH

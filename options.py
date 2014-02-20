@@ -21,6 +21,10 @@ energy_from_cannon = 4
 cannon_energy_cost = 5
 maximum_energy = 255
 
+#the number of pixels the player is pushed left when colliding with a shield cell
+cell_bounceback = 15
+frames_to_eat_cell = 15
+
 #player options
 player_filename = "graphics/test_arrow4_alpha.png"
 player_height = 30
@@ -29,16 +33,13 @@ player_animation_delay = 10
 player_speed = 5
 player_args = (player_filename, player_height, player_width, player_animation_delay, player_speed, maximum_energy)
 
-#the number of pixels the player is pushed left when colliding with a shield cell
-cell_bounceback = 15
-frames_to_eat_cell = 15
-
 #enemy base
 mover_filename = "graphics/mover_base.png"
 mover_top = 150
 mover_bottom = 450
 mover_speed = 2
-mover_args = (mover_filename, mover_top, mover_bottom, mover_speed)
+mover_avg_transition = 5
+mover_args = (mover_filename, mover_speed, mover_top, mover_bottom, mover_avg_transition)
 
 spinner_filename = "graphics/test_arrow2.png"
 spinner_height = 30
@@ -60,10 +61,6 @@ shooter_args = (shooter_filename, shooter_height, shooter_width, shooter_animati
                 
 #enemy shield
 shield_filename = "graphics/cell2.png"
-
-#the number of pixels the player is pushed left when colliding with a shield cell
-cell_bounceback = 15
-frames_to_eat_cell = 15
 
 #homing bullet
 homer_filename = "graphics/bullet.png"

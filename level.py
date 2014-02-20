@@ -64,10 +64,9 @@ class Level(GameState):
             if e.type == pygame.KEYDOWN:
                 if e.key == K_ESCAPE:
                     return False
-                elif e.key == K_z:
+                elif (e.key == K_z or
+                      e.key == K_SPACE):
                     self.shoot()
-                elif e.key == K_1:
-                    self.enemy.start_transition(EnemyBase.SPINNING)
 
         if keys[K_UP] and keys[K_RIGHT]:
             self.player.move(NORTHEAST)
