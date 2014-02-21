@@ -2,7 +2,10 @@ This is a clone of Yars' Revenge.
 
 Requirements: Python 2 or 3, Pygame
 
-Instructions:
+How to run:
+python game.py
+
+How to play:
 -Arrow keys to move
 -Z or Space to shoot
 -Touch the left side of the screen to activate cannon; requires 5 energy
