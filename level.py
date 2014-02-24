@@ -241,8 +241,6 @@ class Level(GameState):
         self.hbullet.rect.center = self.enemy.rect.center
 
 
-
-
     def kill_player(self):
         print("You died.")
 

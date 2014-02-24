@@ -1,4 +1,14 @@
+"""
 
+options.py
+
+Contains global game constants and base arguments for initializing sprites
+These options should mostly be accessed by the main loop, levels, and level manager;
+try to minimize access by other files like Sprite classes.
+
+"""
+
+#constants used in game initialization and levels
 
 #screen constants
 window_size = (width, height) = (800, 600)
@@ -29,6 +39,12 @@ maximum_energy = 255
 #the number of pixels the player is pushed left when colliding with a shield cell
 cell_bounceback = 15
 frames_to_eat_cell = 15
+
+#maximum number of player bullets on the screen
+max_player_bullets = 1
+
+
+#constructor arguments for sprites
 
 #player options
 player_filename = "graphics/test_arrow4_alpha.png"
@@ -72,8 +88,6 @@ homer_filename = "graphics/bullet.png"
 homer_speed = 1
 
 #player bullet
-max_player_bullets = 1
-
 bullet_filename = "graphics/bullet2.png"
 bullet_speed = 8
 
