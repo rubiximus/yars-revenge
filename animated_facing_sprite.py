@@ -65,6 +65,18 @@ class AnimatedFacingSprite(ASprite):
         frame_index = self.current_frame
         self.image = self.images[direction_index][frame_index]
         self.mask = self.masks[direction_index][frame_index]
+
+
+    def turn_right(self):
+        """turns the sprite one eighth turn to the right"""
+
+        self.direction = (self.direction + 1) % 8
+
+
+    def turn_left(self):
+        """turns the sprite one eighth turn to the left"""
+
+        self.direction = (self.direction - 1) % 8
         
         
     def get_direction(self):
