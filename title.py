@@ -15,8 +15,8 @@ from gamestate import GameState
 import options
 
 class Title(GameState):
-    """Title is a GameState which shows a title screen and waits
-    for input to start a level
+    """Title is a GameState which shows a title screen and waits for input
+    to start a level
     """
 
     def __init__(self, manager):

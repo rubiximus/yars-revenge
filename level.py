@@ -231,6 +231,8 @@ class Level(GameState):
         enemy bullet starts on enemy base
         enemy base is in moving state
         cannon is in deactivated state
+
+        Note: shield configuration is not reset
         """
 
         self.player.rect.midleft = (10, int(height/2))
