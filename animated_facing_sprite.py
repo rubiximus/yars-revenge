@@ -12,6 +12,7 @@ DIRECTIONS = {NORTH:0, NORTHEAST:1, EAST:2, SOUTHEAST:3, SOUTH:4, SOUTHWEST:5, W
 
 #lookup tables for turning
 TURN_RIGHT = {NORTH:NORTHEAST, NORTHEAST:EAST, EAST:SOUTHEAST, SOUTHEAST:SOUTH, SOUTH:SOUTHWEST, SOUTHWEST:WEST, WEST:NORTHWEST, NORTHWEST:NORTH}
+TURN_LEFT = {NORTH:NORTHWEST, NORTHEAST:NORTH, EAST:NORTHEAST, SOUTHEAST:EAST, SOUTH:SOUTHEAST, SOUTHWEST:SOUTH, WEST:SOUTHWEST, NORTHWEST:WEST}
 
 class AnimatedFacingSprite(ASprite):
     """Special sprite class that has an animated image for each direction
@@ -84,14 +85,13 @@ class AnimatedFacingSprite(ASprite):
     def turn_right(self):
         """turns the sprite one eighth turn to the right"""
 
-        #self.direction = (self.current_dir + 1) % 8
         self.current_dir = TURN_RIGHT[self.current_dir]
 
 
     def turn_left(self):
         """turns the sprite one eighth turn to the left"""
 
-        self.direction = (self.current_dir - 1) % 8
+        self.current_dir = TURN_LEFT[self.current_dir]
         
         
     def get_direction(self):

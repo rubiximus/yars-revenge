@@ -247,12 +247,8 @@ class Level(GameState):
     def kill_player(self):
         print("You died.")
 
-        #self.manager.kill_player()
-        #self.reset_positions()
         death_animation = DeathAnimation(self.manager, self.player, (self.enemy, self.shield), self)
         self.manager.change_state(death_animation)
-
-        #self.player 
 
 
     def end_level(self):

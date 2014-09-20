@@ -60,7 +60,6 @@ class YarsManager(GameManager):
         for resetting its own status before calling this method.
         """
 
-        #current_level = self.current_state
         next_level.reset_positions()
         info_screen = InfoScreen(self, self.score, self.lives, next_level)
         self.change_state(info_screen)

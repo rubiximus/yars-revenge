@@ -22,6 +22,7 @@ from cannon import Cannon
 class DeathAnimation(GameState):
     """Plays an animation where the player spins around in a circle
     Other sprites are drawn but stay motionless
+    next_level is the level to be resumed after this animation
     """
 
     def __init__(self, manager, player, other_sprites, next_level):
@@ -35,16 +36,15 @@ class DeathAnimation(GameState):
         self.delay = 4
         self.total_runtime = 64
 
+
     def update(self):
 
         self.tick += 1
 
         if self.tick == self.total_runtime:
-            print("restarting level")
             self.manager.kill_player(self.next_level)
 
         elif self.tick % self.delay == 0:
-            print("turning right")
             self.player.turn_right()
             print(self.player.current_dir)
 
