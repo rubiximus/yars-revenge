@@ -22,27 +22,33 @@ from cannon import Cannon
 class DeathAnimation(GameState):
     """Plays an animation where the player spins around in a circle
     Other sprites are drawn but stay motionless
+    next_level is the level to be resumed after this animation
     """
 
-    def __init__(self, manager, player, other_sprites):
+    def __init__(self, manager, player, other_sprites, next_level):
 
         self.manager = manager
         self.player = player
         self.other_sprites = other_sprites
+        self.next_level = next_level
 
         self.tick = 0
         self.delay = 4
         self.total_runtime = 64
+
 
     def update(self):
 
         self.tick += 1
 
         if self.tick == self.total_runtime:
-            self.manager.restart_level()
+            self.manager.kill_player(self.next_level)
 
         elif self.tick % self.delay == 0:
             self.player.turn_right()
+            print(self.player.current_dir)
+
+        self.player.update_direction()
 
 
     def handle_events(self, events, keys):
@@ -51,6 +57,8 @@ class DeathAnimation(GameState):
             if e.type == pygame.KEYDOWN:
                 if e.key == K_ESCAPE:
                     return False
+
+        return True
 
 
     def draw(self, screen):

@@ -13,6 +13,7 @@ from pygame.locals import *
 from pygame.sprite import Sprite, Group, collide_mask, spritecollide, groupcollide
 
 from gamestate import GameState
+from levelends import DeathAnimation
 
 from options import *
 from vector import *
@@ -233,6 +234,8 @@ class Level(GameState):
         enemy bullet starts on enemy base
         enemy base is in moving state
         cannon is in deactivated state
+
+        Note: shield configuration is not reset
         """
 
         self.player.rect.midleft = (10, int(height/2))
@@ -246,10 +249,8 @@ class Level(GameState):
     def kill_player(self):
         print("You died.")
 
-        self.manager.kill_player()
-        self.reset_positions()
-
-        self.player 
+        death_animation = DeathAnimation(self.manager, self.player, (self.enemy, self.shield), self)
+        self.manager.change_state(death_animation)
 
 
     def end_level(self):
