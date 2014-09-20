@@ -41,7 +41,7 @@ class YarsManager(GameManager):
 
         title_screen = Title(self)
         info_screen = InfoScreen(self, self.score, '', title_screen)
-        self.change_state(title_screen)
+        self.change_state(info_screen)
 
 
     def next_level(self):
