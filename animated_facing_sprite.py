@@ -10,6 +10,9 @@ from vector import *
 #dictionary from vector constants to list indeces
 DIRECTIONS = {NORTH:0, NORTHEAST:1, EAST:2, SOUTHEAST:3, SOUTH:4, SOUTHWEST:5, WEST:6, NORTHWEST:7}
 
+#lookup tables for turning
+TURN_RIGHT = {NORTH:NORTHEAST, NORTHEAST:EAST, EAST:SOUTHEAST, SOUTHEAST:SOUTH, SOUTH:SOUTHWEST, SOUTHWEST:WEST, WEST:NORTHWEST, NORTHWEST:NORTH}
+
 class AnimatedFacingSprite(ASprite):
     """Special sprite class that has an animated image for each direction
     Each row of the source sprite file should be the animation for one direction
@@ -54,13 +57,24 @@ class AnimatedFacingSprite(ASprite):
         
         
     def update(self):
-        """updates animation's "tick" and frame"""
-        
-        self.current_step = self.current_step + 1
+        """updates animation and direction"""
+
+        self.update_animation()
+        self.update_direction()
+
+
+    def update_animation(self):
+        """updates animation's frame only"""
+
+        self.current_step += 1
         if self.current_step >= self.delay:
             self.current_step = 0
             self.current_frame = (self.current_frame + 1) % len(self.images[0])
-            
+
+
+    def update_direction(self):
+        """updates sprite's direction only"""
+
         direction_index = DIRECTIONS[self.current_dir]
         frame_index = self.current_frame
         self.image = self.images[direction_index][frame_index]
@@ -70,13 +84,14 @@ class AnimatedFacingSprite(ASprite):
     def turn_right(self):
         """turns the sprite one eighth turn to the right"""
 
-        self.direction = (self.direction + 1) % 8
+        #self.direction = (self.current_dir + 1) % 8
+        self.current_dir = TURN_RIGHT[self.current_dir]
 
 
     def turn_left(self):
         """turns the sprite one eighth turn to the left"""
 
-        self.direction = (self.direction - 1) % 8
+        self.direction = (self.current_dir - 1) % 8
         
         
     def get_direction(self):

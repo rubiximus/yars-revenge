@@ -53,19 +53,20 @@ class YarsManager(GameManager):
         self.change_state(info_screen)
 
 
-    def restart_level(self):
+    def restart_level(self, next_level):
         """Go to intermediate screen then resume this level
 
         Note: Because some things are unchanged the level will be responsible
         for resetting its own status before calling this method.
         """
 
-        current_level = self.current_state
-        info_screen = InfoScreen(self, self.score, self.lives, current_level)
+        #current_level = self.current_state
+        next_level.reset_positions()
+        info_screen = InfoScreen(self, self.score, self.lives, next_level)
         self.change_state(info_screen)
 
 
-    def kill_player(self):
+    def kill_player(self, next_level):
         """Player loses a life. If this leaves player with 0 lives, game over.
         Otherwise, restarts level
         """
@@ -74,7 +75,7 @@ class YarsManager(GameManager):
         if self.lives == 0:
             self.game_over()
         else:
-            self.restart_level()
+            self.restart_level(next_level)
 
 
     def give_life(self):
