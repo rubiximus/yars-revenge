@@ -32,7 +32,9 @@ class Level(GameState):
     def __init__(self, manager):
         """manager is required to be a child of GameManager with these functions:
         -kill_player()
-        -end_level()
+        -next_level()
+        -add_score(amount)
+        -give_life()
         """
 
         GameState.__init__(self, manager)
