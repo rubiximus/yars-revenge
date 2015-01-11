@@ -59,7 +59,7 @@ mover_filename = "graphics/mover_base.png"
 mover_top = 150
 mover_bottom = 450
 mover_speed = 2
-mover_avg_transition = 5
+mover_avg_transition = 10
 mover_args = (mover_filename, mover_speed, mover_top, mover_bottom, mover_avg_transition)
 
 spinner_filename = "graphics/test_arrow2.png"

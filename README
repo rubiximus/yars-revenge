@@ -41,3 +41,6 @@ Todo:
 -proper sprites and title screen
 -sounds
 -make the game actually fun
+   -enemy speed curves
+   -improve enemy base transition rate (straight probability sucks)
+   -different enemy shields

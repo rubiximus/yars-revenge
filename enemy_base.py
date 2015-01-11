@@ -103,7 +103,7 @@ class MovingBase(State):
         self.bottom = bottom
         self.current_dir = SOUTH
 
-        self.transition_probability = 1 / (avg_transition * options.max_framerate)
+        self.transition_probability = 1.0 / (avg_transition * options.max_framerate)
         
         self.STATE_NUMBER = manager.MOVING
         self.IS_FOLLOWABLE = True
