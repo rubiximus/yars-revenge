@@ -231,6 +231,7 @@ class Level(GameState):
     def reset_positions(self):
         """Moves sprites to their initial locations:
         player starts in left center facing south and with 0 energy
+        player bullets are removed
         enemy bullet starts on enemy base
         enemy base is in moving state
         cannon is in deactivated state
@@ -241,6 +242,7 @@ class Level(GameState):
         self.player.rect.midleft = (10, int(height/2))
         self.player.set_direction(SOUTH)
         self.player.reset_energy()
+        self.player_bullets.empty()
         self.enemy.resume_mover_state()
         self.cannon.start_deactivated()
         self.hbullet.rect.center = self.enemy.rect.center
