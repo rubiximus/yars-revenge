@@ -46,7 +46,6 @@ class DeathAnimation(GameState):
 
         elif self.tick % self.delay == 0:
             self.player.turn_right()
-            print(self.player.current_dir)
 
         self.player.update_direction()
 
@@ -70,21 +69,53 @@ class DeathAnimation(GameState):
 
 
 class WinAnimation(GameState):
+    """All sprites but the player disappear. The player has free movement for a few seconds.
+    """
 
     def __init__(self, manager, player):
 
         self.manager = manager
         self.player = player
 
+        self.tick = 0
+        self.total_runtime = 120
+
 
     def update(self):
 
-        pass
+        self.tick += 1
+
+        if self.tick == self.total_runtime:
+            self.manager.next_level()
+            
+        self.player.update()
 
     
     def handle_events(self, events, keys):
+    
+        for e in events:
+            if e.type == pygame.KEYDOWN:
+                if e.key == K_ESCAPE:
+                    return False
 
-        pass
+        if keys[K_UP] and keys[K_RIGHT]:
+            self.player.move(NORTHEAST)
+        elif keys[K_UP] and keys[K_LEFT]:
+            self.player.move(NORTHWEST)
+        elif keys[K_DOWN] and keys[K_RIGHT]:
+            self.player.move(SOUTHEAST)
+        elif keys[K_DOWN] and keys[K_LEFT]:
+            self.player.move(SOUTHWEST)
+        elif keys[K_LEFT]:
+            self.player.move(WEST)
+        elif keys[K_RIGHT]:
+            self.player.move(EAST)
+        elif keys[K_UP]:
+            self.player.move(NORTH)
+        elif keys[K_DOWN]:
+            self.player.move(SOUTH)
+
+        return True
 
 
     def draw(self, screen):

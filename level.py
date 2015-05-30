@@ -13,7 +13,7 @@ from pygame.locals import *
 from pygame.sprite import Sprite, Group, collide_mask, spritecollide, groupcollide
 
 from gamestate import GameState
-from levelends import DeathAnimation
+from levelends import DeathAnimation, WinAnimation
 
 from options import *
 from vector import *
@@ -239,7 +239,7 @@ class Level(GameState):
         Note: shield configuration is not reset
         """
 
-        self.player.rect.midleft = (10, int(height/2))
+        self.player.rect.midleft = (20, int(height/2))
         self.player.set_direction(SOUTH)
         self.player_bullets.empty()
         self.enemy.resume_mover_state()
@@ -257,4 +257,5 @@ class Level(GameState):
     def end_level(self):
         print("You won the level!")
         
-        self.manager.next_level()
+        win_animation = WinAnimation(self.manager, self.player)
+        self.manager.change_state(win_animation)

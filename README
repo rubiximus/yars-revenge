@@ -34,6 +34,8 @@ energy to activate your cannon, and aim the cannon to hit the base.
 
 
 Todo:
+-extract magic numbers from levelends.py
+-abstract/modularize keypress methods (see Level, WinAnimation)
 -neutral zone
 -game modes (maybe a beginner's mode like in the original)
 -proper animations and delays for player death, level end, etc
