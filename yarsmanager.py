@@ -25,12 +25,14 @@ class YarsManager(GameManager):
 
     
     def new_game(self):
-        """initialize game variables (e.g. score, lives)
+        """initialize game variables (e.g. score, lives, energy)
         and prepare the first level
         """
 
         self.score = 0
         self.lives = options.initial_lives
+        self.max_energy = options.max_energy
+        self.energy = 0
 
         self.next_level()
 
@@ -60,6 +62,7 @@ class YarsManager(GameManager):
         for resetting its own status before calling this method.
         """
 
+        self.reset_energy()
         next_level.reset_positions()
         info_screen = InfoScreen(self, self.score, self.lives, next_level)
         self.change_state(info_screen)
@@ -87,3 +90,29 @@ class YarsManager(GameManager):
         """Increase score by given amount"""
 
         self.score += amount
+
+
+    def give_energy(self, amount):
+        """energy increases by the given amount"""
+
+        self.energy += amount
+        if self.energy > self.max_energy:
+            self.energy = self.max_energy
+
+
+    def spend_energy(self, amount):
+        """energy decreases by the given amount if possible
+
+        returns True if successful
+        returns False if not enough energy; energy will be unchanged
+        """
+
+        if self.energy < amount:
+            return False
+        else:
+            self.give_energy(-amount)
+            return True
+            
+            
+    def reset_energy(self):
+        self.energy = 0

@@ -119,7 +119,7 @@ class Level(GameState):
         if collide_mask(player, enemy):
             #if base in moving phase, give player energy
             if enemy.get_state_number() == EnemyBase.MOVING:
-                self.player.give_energy(energy_from_enemy)
+                self.manager.give_energy(energy_from_enemy)
             #if base in spinning or shooting phase, kill player
             elif enemy.get_state_number() == EnemyBase.SPINNING:
                 self.kill_player()
@@ -143,8 +143,8 @@ class Level(GameState):
             if not center_cell.marked:
                 center_cell.mark()
             elif shield.can_eat():
-                player.give_energy(energy_from_cell)
                 center_cell.kill()
+                self.manager.give_energy(energy_from_cell)
                 self.manager.add_score(score_cell_eat)
                 shield.start_delay(frames_to_eat_cell)
             
@@ -152,7 +152,7 @@ class Level(GameState):
         if collide_mask(player, cannon):
             #if in deactivated phase, try spending required energy to activate
             if (cannon.get_state_number() == Cannon.DEACTIVATED and 
-                player.spend_energy(cannon_energy_cost)):
+                self.manager.spend_energy(cannon_energy_cost)):
                 cannon.start_standby()
             #if in firing phase, kill player
             if cannon.get_state_number() == Cannon.FIRING:
@@ -160,7 +160,7 @@ class Level(GameState):
             #if in returning phase, give energy and deactivate cannon
             if cannon.get_state_number() == Cannon.RETURNING:
                 cannon.start_transition(Cannon.DEACTIVATED)
-                player.give_energy(energy_from_cannon)
+                self.manager.give_energy(energy_from_cannon)
                 
         #cannon with cell
         #kill one cell and reverse cannon direction
@@ -241,7 +241,6 @@ class Level(GameState):
 
         self.player.rect.midleft = (10, int(height/2))
         self.player.set_direction(SOUTH)
-        self.player.reset_energy()
         self.player_bullets.empty()
         self.enemy.resume_mover_state()
         self.cannon.start_deactivated()

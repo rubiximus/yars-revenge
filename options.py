@@ -34,7 +34,7 @@ energy_from_cell = 1
 energy_from_enemy = 2
 energy_from_cannon = 4
 cannon_energy_cost = 5
-maximum_energy = 255
+max_energy = 255
 
 #the number of pixels the player is pushed left when colliding with a shield cell
 cell_bounceback = 15
@@ -52,7 +52,7 @@ player_height = 30
 player_width = 30
 player_animation_delay = 10
 player_speed = 5
-player_args = (player_filename, player_height, player_width, player_animation_delay, player_speed, maximum_energy)
+player_args = (player_filename, player_height, player_width, player_animation_delay, player_speed)
 
 #enemy base
 mover_filename = "graphics/mover_base.png"
