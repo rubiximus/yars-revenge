@@ -12,6 +12,7 @@ from pygame.locals import *
 from pygame.font import Font, get_default_font
 
 from gamestate import GameState
+import event_handlers
 
 import options
 
@@ -31,14 +32,8 @@ class InfoScreen(GameState):
 
 
     def handle_events(self, events, keys):
-        for e in events:
-            if e.type == pygame.KEYDOWN:
-                if e.key == K_ESCAPE:
-                    return False
-                else:
-                    self.manager.change_state(self.next_state)
-
-        return True
+        return (event_handlers.check_quit(events, keys) and
+                event_handlers.check_shoot_button(events, keys, self.change_state))
 
 
     def draw(self, screen):
@@ -49,3 +44,7 @@ class InfoScreen(GameState):
                     self.score_text.get_rect(midright = (right_edge, score_height)))
         screen.blit(self.lives_text,
                     self.lives_text.get_rect(midright = (right_edge, lives_height)))
+
+
+    def change_state(self):
+        self.manager.change_state(self.next_state)

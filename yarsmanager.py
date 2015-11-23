@@ -98,6 +98,8 @@ class YarsManager(GameManager):
         self.energy += amount
         if self.energy > self.max_energy:
             self.energy = self.max_energy
+        elif self.energy < 0:
+            self.energy = 0
 
 
     def spend_energy(self, amount):
@@ -115,4 +117,6 @@ class YarsManager(GameManager):
             
             
     def reset_energy(self):
+        """energy is reset to 0"""
+        
         self.energy = 0

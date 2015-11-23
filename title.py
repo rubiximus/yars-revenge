@@ -11,6 +11,7 @@ from pygame.locals import *
 from pygame.font import Font, get_default_font
 
 from gamestate import GameState
+import event_handlers
 
 import options
 
@@ -25,19 +26,13 @@ class Title(GameState):
         sys_font = Font(get_default_font(), options.font_size)
         self.message1 = sys_font.render("Andrew's Bitchin' Yars' Revenge Clone",
                                         True, options.white)
-        self.message2 = sys_font.render("Press a key to start",
+        self.message2 = sys_font.render("Press shoot button (space) to start.",
                                         True, options.white)
 
 
     def handle_events(self, events, keys):
-        for e in events:
-            if e.type == pygame.KEYDOWN:
-                if e.key == K_ESCAPE:
-                    return False
-                else:
-                    self.manager.new_game()
-
-        return True
+        return (event_handlers.check_quit(events, keys) and
+                event_handlers.check_shoot_button(events, keys, self.manager.new_game))
 
 
     def draw(self, screen):

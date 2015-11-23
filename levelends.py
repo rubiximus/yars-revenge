@@ -10,6 +10,8 @@ from pygame.sprite import Sprite, Group, collide_mask, spritecollide, groupcolli
 
 from gamestate import GameState
 
+import event_handlers
+
 from options import *
 from vector import *
 from ship import Ship, Bullet
@@ -26,7 +28,6 @@ class DeathAnimation(GameState):
     """
 
     def __init__(self, manager, player, other_sprites, next_level):
-
         self.manager = manager
         self.player = player
         self.other_sprites = other_sprites
@@ -38,7 +39,6 @@ class DeathAnimation(GameState):
 
 
     def update(self):
-
         self.tick += 1
 
         if self.tick == self.total_runtime:
@@ -51,17 +51,10 @@ class DeathAnimation(GameState):
 
 
     def handle_events(self, events, keys):
-
-        for e in events:
-            if e.type == pygame.KEYDOWN:
-                if e.key == K_ESCAPE:
-                    return False
-
-        return True
+        return event_handlers.check_quit(events, keys)
 
 
     def draw(self, screen):
-
         self.player.draw(screen)
 
         for curr in self.other_sprites:
@@ -73,7 +66,6 @@ class WinAnimation(GameState):
     """
 
     def __init__(self, manager, player):
-
         self.manager = manager
         self.player = player
 
@@ -82,7 +74,6 @@ class WinAnimation(GameState):
 
 
     def update(self):
-
         self.tick += 1
 
         if self.tick == self.total_runtime:
@@ -92,32 +83,9 @@ class WinAnimation(GameState):
 
     
     def handle_events(self, events, keys):
-    
-        for e in events:
-            if e.type == pygame.KEYDOWN:
-                if e.key == K_ESCAPE:
-                    return False
-
-        if keys[K_UP] and keys[K_RIGHT]:
-            self.player.move(NORTHEAST)
-        elif keys[K_UP] and keys[K_LEFT]:
-            self.player.move(NORTHWEST)
-        elif keys[K_DOWN] and keys[K_RIGHT]:
-            self.player.move(SOUTHEAST)
-        elif keys[K_DOWN] and keys[K_LEFT]:
-            self.player.move(SOUTHWEST)
-        elif keys[K_LEFT]:
-            self.player.move(WEST)
-        elif keys[K_RIGHT]:
-            self.player.move(EAST)
-        elif keys[K_UP]:
-            self.player.move(NORTH)
-        elif keys[K_DOWN]:
-            self.player.move(SOUTH)
-
-        return True
+        return (event_handlers.check_quit(events, keys) and
+                event_handlers.move_player(events, keys, self.player))
 
 
     def draw(self, screen):
-
         self.player.draw(screen)

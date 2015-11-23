@@ -15,6 +15,8 @@ from pygame.sprite import Sprite, Group, collide_mask, spritecollide, groupcolli
 from gamestate import GameState
 from levelends import DeathAnimation, WinAnimation
 
+import event_handlers
+
 from options import *
 from vector import *
 from ship import Ship, Bullet
@@ -63,32 +65,9 @@ class Level(GameState):
 
 
     def handle_events(self, events, keys):
-        for e in events:
-            if e.type == pygame.KEYDOWN:
-                if e.key == K_ESCAPE:
-                    return False
-                elif (e.key == K_z or
-                      e.key == K_SPACE):
-                    self.shoot()
-
-        if keys[K_UP] and keys[K_RIGHT]:
-            self.player.move(NORTHEAST)
-        elif keys[K_UP] and keys[K_LEFT]:
-            self.player.move(NORTHWEST)
-        elif keys[K_DOWN] and keys[K_RIGHT]:
-            self.player.move(SOUTHEAST)
-        elif keys[K_DOWN] and keys[K_LEFT]:
-            self.player.move(SOUTHWEST)
-        elif keys[K_LEFT]:
-            self.player.move(WEST)
-        elif keys[K_RIGHT]:
-            self.player.move(EAST)
-        elif keys[K_UP]:
-            self.player.move(NORTH)
-        elif keys[K_DOWN]:
-            self.player.move(SOUTH)
-
-        return True
+        return (event_handlers.check_quit(events, keys) and
+                event_handlers.check_shoot_button(events, keys, self.shoot) and
+                event_handlers.move_player(events, keys, self.player))
     
 
     def draw(self, screen):
