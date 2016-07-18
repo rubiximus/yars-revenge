@@ -12,7 +12,6 @@ from gamestate import GameState
 
 import event_handlers
 
-from options import *
 from vector import *
 from ship import Ship, Bullet
 from enemy_base import EnemyBase
@@ -27,21 +26,21 @@ class DeathAnimation(GameState):
     next_level is the level to be resumed after this animation
     """
 
-    def __init__(self, manager, player, other_sprites, next_level):
+    def __init__(self, manager, player, other_sprites, next_level, animation_delay, total_runtime):
         self.manager = manager
         self.player = player
         self.other_sprites = other_sprites
         self.next_level = next_level
 
         self.tick = 0
-        self.delay = 4
-        self.total_runtime = 64
+        self.delay = animation_delay
+        self.total_runtime = total_runtime
 
 
     def update(self):
         self.tick += 1
 
-        if self.tick == self.total_runtime:
+        if self.tick >= self.total_runtime:
             self.manager.kill_player(self.next_level)
 
         elif self.tick % self.delay == 0:
@@ -65,18 +64,18 @@ class WinAnimation(GameState):
     """All sprites but the player disappear. The player has free movement for a few seconds.
     """
 
-    def __init__(self, manager, player):
+    def __init__(self, manager, player, total_runtime):
         self.manager = manager
         self.player = player
 
         self.tick = 0
-        self.total_runtime = 120
+        self.total_runtime = total_runtime
 
 
     def update(self):
         self.tick += 1
 
-        if self.tick == self.total_runtime:
+        if self.tick >= self.total_runtime:
             self.manager.next_level()
             
         self.player.update()

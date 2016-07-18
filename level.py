@@ -229,12 +229,13 @@ class Level(GameState):
     def kill_player(self):
         print("You died.")
 
-        death_animation = DeathAnimation(self.manager, self.player, (self.enemy, self.shield), self)
+        death_animation = DeathAnimation(self.manager, self.player, (self.enemy, self.shield), self,
+                death_animation_delay, death_animation_total_runtime)
         self.manager.change_state(death_animation)
 
 
     def end_level(self):
         print("You won the level!")
         
-        win_animation = WinAnimation(self.manager, self.player)
+        win_animation = WinAnimation(self.manager, self.player, win_animation_total_runtime)
         self.manager.change_state(win_animation)

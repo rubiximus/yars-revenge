@@ -43,6 +43,12 @@ frames_to_eat_cell = 15
 #maximum number of player bullets on the screen
 max_player_bullets = 1
 
+#death animation constants
+death_animation_delay = 4
+death_animation_total_runtime = 64
+
+#win animation constants
+win_animation_total_runtime = 120
 
 #constructor arguments for sprites
 

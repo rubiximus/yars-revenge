@@ -34,7 +34,6 @@ energy to activate your cannon, and aim the cannon to hit the base.
 
 
 Todo:
--extract magic numbers from levelends.py
 -neutral zone
 -proper animations and delays for player death, level end, etc
 -proper sprites and title screen
@@ -44,3 +43,4 @@ Todo:
    -improve enemy base transition rate (straight probability sucks)
    -different enemy shields
    -game modes (maybe a beginner's mode like in the original)
+   -add more flashy to the win animation sequence
