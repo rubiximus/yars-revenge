@@ -19,7 +19,6 @@ from pygame.mask import Mask
 from statemachine import Manager, State
 from asprite import ASprite
 from vector import *
-import options
 
 COLORS = [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), 
           (255, 0, 0), (0, 255, 0), (0, 0, 255),
@@ -37,6 +36,7 @@ class IonField(Sprite):
         self.image = Surface((self.width, self.height))
         self.rect = Rect(left, top, self.width, self.height)
         self.mask = Mask((self.width, self.height))
+        self.mask.fill()
 
         self.top = top
         self.bot = bot

@@ -94,10 +94,11 @@ class Level(GameState):
         shield = self.shield
         hbullet = self.hbullet
         cannon = self.cannon
+        ion_field = self.ion_field
         player_bullets = self.player_bullets
         
         #player with homing bullet
-        if collide_mask(player, hbullet):
+        if collide_mask(player, hbullet) and not collide_mask(player, ion_field):
             self.kill_player()
         
         #player with enemy base
@@ -204,6 +205,9 @@ class Level(GameState):
         as long as options.max_player_bullets won't be exeeded
         """
         
+        if collide_mask(self.player, self.ion_field):
+            return
+
         if self.cannon.start_transition(Cannon.FIRING):
             return        
         
@@ -233,15 +237,11 @@ class Level(GameState):
 
 
     def kill_player(self):
-        print("You died.")
-
         death_animation = DeathAnimation(self.manager, self.player, (self.enemy, self.shield), self,
                 death_animation_delay, death_animation_total_runtime)
         self.manager.change_state(death_animation)
 
 
     def end_level(self):
-        print("You won the level!")
-        
         win_animation = WinAnimation(self.manager, self.player, win_animation_total_runtime)
         self.manager.change_state(win_animation)
