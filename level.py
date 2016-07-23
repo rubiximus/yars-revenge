@@ -25,6 +25,7 @@ from formations import formation, formation_center
 from enemy_shield import EnemyShield
 from homing_bullet import HomingBullet
 from cannon import Cannon
+from ion_field import IonField
 
 class Level(GameState):
     """Level is a GameState with behavior for one full game level.
@@ -37,6 +38,8 @@ class Level(GameState):
         -kill_player()
         -next_level()
         -add_score(amount)
+        -give_energy(amount)
+        -spend_energy(amount)
         -give_life()
         """
 
@@ -48,6 +51,7 @@ class Level(GameState):
         self.hbullet = HomingBullet(homer_filename, self.player, homer_speed)
         self.cannon = Cannon(deactivated_cannon_args, standby_cannon_args,
                              firing_cannon_args, self.player)
+        self.ion_field = IonField(*ion_field_args)
         self.player_bullets = Group()
 
         self.reset_positions()
@@ -60,6 +64,7 @@ class Level(GameState):
         self.hbullet.update()
         self.cannon.update()
         self.player_bullets.update()
+        self.ion_field.update()
         
         self.collisions()
 
@@ -71,6 +76,7 @@ class Level(GameState):
     
 
     def draw(self, screen):
+        self.ion_field.draw(screen)
         self.enemy.draw(screen)
         self.shield.draw(screen)
         self.player.draw(screen)

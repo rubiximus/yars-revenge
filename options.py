@@ -106,3 +106,13 @@ standby_cannon_args = (standby_cannon_filename, )
 firing_cannon_filename = "graphics/cell.png"
 firing_cannon_speed = 9
 firing_cannon_args = (firing_cannon_filename, firing_cannon_speed)
+
+#ion field
+ion_top = 0
+ion_bot = height
+ion_left = 250
+ion_right = 400
+ion_delay = 6
+ion_noise_width = 15
+ion_noise_height = 2
+ion_field_args = (ion_top, ion_bot, ion_left, ion_right, ion_noise_width, ion_noise_height, ion_delay)
