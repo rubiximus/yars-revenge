@@ -3,8 +3,7 @@
 import pygame
 
 from asprite import ASprite
-from options import *
-from vector import *
+from vector import round_to_45, get_direction
 
 class HomingBullet(ASprite):
     """A sprite that takes and follows a target

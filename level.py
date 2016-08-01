@@ -17,8 +17,8 @@ from levelends import DeathAnimation, WinAnimation
 
 import event_handlers
 
-from options import *
-from vector import *
+import options as opt
+import vector
 from ship import Ship, Bullet
 from enemy_base import EnemyBase
 from formations import formation, formation_center
@@ -45,13 +45,13 @@ class Level(GameState):
 
         GameState.__init__(self, manager)
 
-        self.player = Ship(*player_args)
-        self.enemy = EnemyBase(mover_args, spinner_args, shooter_args, self.player)
-        self.shield = EnemyShield(self.enemy, shield_filename, formation, formation_center)
-        self.hbullet = HomingBullet(homer_filename, self.player, homer_speed)
-        self.cannon = Cannon(deactivated_cannon_args, standby_cannon_args,
-                             firing_cannon_args, self.player)
-        self.ion_field = IonField(*ion_field_args)
+        self.player = Ship(*opt.player_args)
+        self.enemy = EnemyBase(opt.mover_args, opt.spinner_args, opt.shooter_args, self.player)
+        self.shield = EnemyShield(self.enemy, opt.shield_filename, formation, formation_center)
+        self.hbullet = HomingBullet(opt.homer_filename, self.player, opt.homer_speed)
+        self.cannon = Cannon(opt.deactivated_cannon_args, opt.standby_cannon_args,
+                             opt.firing_cannon_args, self.player)
+        self.ion_field = IonField(*opt.ion_field_args)
         self.player_bullets = Group()
 
         self.reset_positions()
@@ -105,7 +105,7 @@ class Level(GameState):
         if collide_mask(player, enemy):
             #if base in moving phase, give player energy
             if enemy.get_state_number() == EnemyBase.MOVING:
-                self.manager.give_energy(energy_from_enemy)
+                self.manager.give_energy(opt.energy_from_enemy)
             #if base in spinning or shooting phase, kill player
             elif enemy.get_state_number() == EnemyBase.SPINNING:
                 self.kill_player()
@@ -124,21 +124,21 @@ class Level(GameState):
         pc_collides = spritecollide(player, shield, False, collide_mask)
         center_cell = self.find_centermost_cell(pc_collides)
         if center_cell is not None:
-            player.rect.right = center_cell.rect.left - cell_bounceback
+            player.rect.right = center_cell.rect.left - opt.cell_bounceback
             
             if not center_cell.marked:
                 center_cell.mark()
             elif shield.can_eat():
                 center_cell.kill()
-                self.manager.give_energy(energy_from_cell)
-                self.manager.add_score(score_cell_eat)
-                shield.start_delay(frames_to_eat_cell)
+                self.manager.give_energy(opt.energy_from_cell)
+                self.manager.add_score(opt.score_cell_eat)
+                shield.start_delay(opt.frames_to_eat_cell)
             
         #player with cannon
         if collide_mask(player, cannon):
             #if in deactivated phase, try spending required energy to activate
             if (cannon.get_state_number() == Cannon.DEACTIVATED and 
-                self.manager.spend_energy(cannon_energy_cost)):
+                self.manager.spend_energy(opt.cannon_energy_cost)):
                 cannon.start_standby()
             #if in firing phase, kill player
             if cannon.get_state_number() == Cannon.FIRING:
@@ -146,7 +146,7 @@ class Level(GameState):
             #if in returning phase, give energy and deactivate cannon
             if cannon.get_state_number() == Cannon.RETURNING:
                 cannon.start_transition(Cannon.DEACTIVATED)
-                self.manager.give_energy(energy_from_cannon)
+                self.manager.give_energy(opt.energy_from_cannon)
                 
         #cannon with cell
         #kill one cell and reverse cannon direction
@@ -155,7 +155,7 @@ class Level(GameState):
             cannon_collides = spritecollide(cannon, shield, False, collide_mask)
             if len(cannon_collides) > 0:
                 cannon_collides[0].kill()
-                self.manager.add_score(score_cell_shoot)
+                self.manager.add_score(opt.score_cell_shoot)
                 cannon.start_transition(Cannon.RETURNING)
             
         #cannon with enemy base -- only if cannon in firing state
@@ -163,11 +163,11 @@ class Level(GameState):
         #if enemy base is in shooting state, player also gets a life
         if cannon.get_state_number() == Cannon.FIRING and collide_mask(cannon, enemy):
             if enemy.get_state_number() == EnemyBase.MOVING:
-                self.manager.add_score(score_mover_destroy)
+                self.manager.add_score(opt.score_mover_destroy)
             elif enemy.get_state_number() == EnemyBase.SPINNING:
-                self.manager.add_score(score_spinner_destroy)
+                self.manager.add_score(opt.score_spinner_destroy)
             elif enemy.get_state_number() == EnemyBase.SHOOTING:
-                self.manager.add_score(score_shooter_destroy)
+                self.manager.add_score(opt.score_shooter_destroy)
                 self.manager.give_life()
             self.end_level()
         
@@ -176,7 +176,7 @@ class Level(GameState):
         #if somehow one bullet hits multiple cells one is arbitrarily selected
         bc_collides = groupcollide(player_bullets, shield, True, False, collide_mask)
         for current_bullet in bc_collides.keys():
-            self.manager.add_score(score_cell_shoot)
+            self.manager.add_score(opt.score_cell_shoot)
             shield.remove_cross(bc_collides[current_bullet][0])
 
 
@@ -211,8 +211,8 @@ class Level(GameState):
         if self.cannon.start_transition(Cannon.FIRING):
             return        
         
-        if len(self.player_bullets) < max_player_bullets:
-            new_bullet = Bullet(bullet_filename, bullet_speed, 
+        if len(self.player_bullets) < opt.max_player_bullets:
+            new_bullet = Bullet(opt.bullet_filename, opt.bullet_speed, 
                                 self.player.get_rect().center, self.player.get_direction())
             self.player_bullets.add(new_bullet)
 
@@ -228,8 +228,8 @@ class Level(GameState):
         Note: shield configuration is not reset
         """
 
-        self.player.rect.midleft = (20, int(height/2))
-        self.player.set_direction(SOUTH)
+        self.player.rect.midleft = (20, int(opt.height/2))
+        self.player.set_direction(vector.SOUTH)
         self.player_bullets.empty()
         self.enemy.resume_mover_state()
         self.cannon.start_deactivated()
@@ -238,10 +238,10 @@ class Level(GameState):
 
     def kill_player(self):
         death_animation = DeathAnimation(self.manager, self.player, (self.enemy, self.shield), self,
-                death_animation_delay, death_animation_total_runtime)
+                opt.death_animation_delay, opt.death_animation_total_runtime)
         self.manager.change_state(death_animation)
 
 
     def end_level(self):
-        win_animation = WinAnimation(self.manager, self.player, win_animation_total_runtime)
+        win_animation = WinAnimation(self.manager, self.player, opt.win_animation_total_runtime)
         self.manager.change_state(win_animation)

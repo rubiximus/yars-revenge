@@ -11,7 +11,7 @@ All methods return false if a quit condition is met and true otherwise
 import pygame
 from pygame.locals import *
 
-from vector import *
+import vector
 
 def check_quit(events, keys):
     """Checks for quit keys (e.g. esc)"""
@@ -27,21 +27,21 @@ def move_player(events, keys, player):
     """Checks for player movement keys and moves player accordingly"""
     
     if keys[K_UP] and keys[K_RIGHT]:
-        player.move(NORTHEAST)
+        player.move(vector.NORTHEAST)
     elif keys[K_UP] and keys[K_LEFT]:
-        player.move(NORTHWEST)
+        player.move(vector.NORTHWEST)
     elif keys[K_DOWN] and keys[K_RIGHT]:
-        player.move(SOUTHEAST)
+        player.move(vector.SOUTHEAST)
     elif keys[K_DOWN] and keys[K_LEFT]:
-        player.move(SOUTHWEST)
+        player.move(vector.SOUTHWEST)
     elif keys[K_LEFT]:
-        player.move(WEST)
+        player.move(vector.WEST)
     elif keys[K_RIGHT]:
-        player.move(EAST)
+        player.move(vector.EAST)
     elif keys[K_UP]:
-        player.move(NORTH)
+        player.move(vector.NORTH)
     elif keys[K_DOWN]:
-        player.move(SOUTH)
+        player.move(vector.SOUTH)
 
     return True
 

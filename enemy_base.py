@@ -22,7 +22,7 @@ from pygame.locals import *
 from statemachine import Manager, State
 from asprite import ASprite
 from animated_facing_sprite import AnimatedFacingSprite
-from vector import *
+import vector
 import options
 
 class EnemyBase(Manager):
@@ -101,7 +101,7 @@ class MovingBase(State):
         
         self.top = top
         self.bottom = bottom
-        self.current_dir = SOUTH
+        self.current_dir = vector.SOUTH
 
         self.transition_probability = 1.0 / (avg_transition * options.max_framerate)
         
@@ -116,9 +116,9 @@ class MovingBase(State):
             self.transition_to(self.manager.SPINNING)
         
         if self.sprite.rect.bottom >= self.bottom:
-            self.current_dir = NORTH
+            self.current_dir = vector.NORTH
         elif self.sprite.rect.top <= self.top:
-            self.current_dir = SOUTH
+            self.current_dir = vector.SOUTH
 
 
     def transition_to(self, new_state_number):
@@ -171,7 +171,7 @@ class SpinningBase(State):
         self.tick += 1
         
         if self.tick == self.targ_time:
-            self.target_direction = normalize(get_direction(self.sprite.rect.center, self.target.rect.center))
+            self.target_direction = vector.normalize(vector.get_direction(self.sprite.rect.center, self.target.rect.center))
         if self.tick == self.shoot_time:
             self.transition_to(self.manager.SHOOTING)
 

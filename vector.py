@@ -16,8 +16,8 @@ NORTHWEST = (-1, -1)
 SOUTHWEST = (-1, 1)
 
 #tan(22.5) and tan(67.5) respectively
-tan225 = 0.41421356237309503
-tan675 = 2.414213562373095
+TAN_225 = 0.41421356237309503
+TAN_675 = 2.414213562373095
 
 def round_to_90(vector):
     """Returns the cardinal direction closest to vector, favoring N/S
@@ -41,11 +41,11 @@ def round_to_45(vector):
     ratio = abs(vector[1] / vector[0])
     
     #round to horizontal
-    if ratio < tan225:
+    if ratio < TAN_225:
         return (copysign(1, vector[0]), 0)
     
     #round to vertical
-    if ratio > tan675:
+    if ratio > TAN_675:
         return (0, copysign(1, vector[1]))
         
     #round to intermediate

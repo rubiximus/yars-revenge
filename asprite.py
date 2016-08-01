@@ -4,7 +4,7 @@ import pygame
 from pygame import mask
 from pygame.sprite import Sprite
 
-from vector import *
+from vector import add, scale
 
 class ASprite(Sprite):
     """Advanced sprite class that adds basic methods for moving and drawing

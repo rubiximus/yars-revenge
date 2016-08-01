@@ -5,7 +5,7 @@ from pygame import Surface, mask
 from pygame.sprite import Sprite
 
 from asprite import ASprite
-from vector import *
+from vector import NORTH, SOUTH, EAST, WEST, NORTHEAST, SOUTHEAST, NORTHWEST, SOUTHWEST, round_to_45
 
 #dictionary from vector constants to list indeces
 DIRECTIONS = {NORTH:0, NORTHEAST:1, EAST:2, SOUTHEAST:3, SOUTH:4, SOUTHWEST:5, WEST:6, NORTHWEST:7}

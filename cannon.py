@@ -22,7 +22,7 @@ from pygame.mask import Mask
 
 from statemachine import Manager, State
 from asprite import ASprite
-from vector import *
+import vector
 import options
 
 class Cannon(Manager):
@@ -154,7 +154,7 @@ class FiringCannon(State):
 
         self.sprite = ASprite(sprite_filename, speed)
         self.sprite.rect.center = position
-        self.direction = EAST
+        self.direction = vector.EAST
         
         self.STATE_NUMBER = manager.FIRING
         
@@ -190,6 +190,6 @@ class ReturningCannon(FiringCannon):
     def __init__(self, manager, position, sprite_filename, speed):
         FiringCannon.__init__(self, manager, position, sprite_filename, speed)
 
-        self.direction = WEST
+        self.direction = vector.WEST
         
         self.STATE_NUMBER = manager.RETURNING

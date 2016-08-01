@@ -12,7 +12,6 @@ from gamestate import GameState
 
 import event_handlers
 
-from vector import *
 from ship import Ship, Bullet
 from enemy_base import EnemyBase
 from formations import formation, formation_center

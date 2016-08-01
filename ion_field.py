@@ -18,7 +18,6 @@ from pygame.mask import Mask
 
 from statemachine import Manager, State
 from asprite import ASprite
-from vector import *
 
 COLORS = [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), 
           (255, 0, 0), (0, 255, 0), (0, 0, 255),
