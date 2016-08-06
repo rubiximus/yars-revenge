@@ -26,21 +26,19 @@ COLORS = [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 
 class IonField(Sprite):
     """Sprite that draws a bunch of random horizontal lines inside a rectangle."""
     
-    def __init__(self, top, bot, left, right, noise_width, noise_height, delay):
+    def __init__(self, left, top, width, height, noise_width, noise_height, delay):
         Sprite.__init__(self)
 
-        self.width = right-left
-        self.height = bot-top
+        self.top = top
+        self.left = left
+        self.width = width
+        self.height = height
 
         self.image = Surface((self.width, self.height))
         self.rect = Rect(left, top, self.width, self.height)
+        self.rect = Rect(left, top, 0, 0)
         self.mask = Mask((self.width, self.height))
         self.mask.fill()
-
-        self.top = top
-        self.bot = bot
-        self.left = left
-        self.right = right
 
         self.noise_width = noise_width
         self.noise_height = noise_height
@@ -49,12 +47,14 @@ class IonField(Sprite):
         self.delay = delay
 
 
-    def draw(self, screen):
+    def update(self):
         self.tick = self.tick + 1
         if self.tick % self.delay == 0:
             self.generate_noise()
+
+
+    def draw(self, screen):
         screen.blit(self.image, self.rect)
-        screen.blit(self.image, self.rect.move(0, self.image.get_height()))
     
 
     def generate_noise(self):
@@ -62,3 +62,5 @@ class IonField(Sprite):
             for row in range(0, self.image.get_height(), self.noise_height):
                 c = choice(COLORS)
                 draw.rect(self.image, c, Rect(col, row, self.noise_width, self.noise_height))
+
+

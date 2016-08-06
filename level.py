@@ -73,7 +73,7 @@ class Level(GameState):
         return (event_handlers.check_quit(events, keys) and
                 event_handlers.check_shoot_button(events, keys, self.shoot) and
                 event_handlers.move_player(events, keys, self.player))
-    
+
 
     def draw(self, screen):
         self.ion_field.draw(screen)
@@ -243,5 +243,5 @@ class Level(GameState):
 
 
     def end_level(self):
-        win_animation = WinAnimation(self.manager, self.player, opt.win_animation_total_runtime)
+        win_animation = WinAnimation(self.manager, self.player, opt.win_animation_total_runtime, opt.exp_field_args)
         self.manager.change_state(win_animation)

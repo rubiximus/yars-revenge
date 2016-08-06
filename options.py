@@ -48,7 +48,7 @@ death_animation_delay = 4
 death_animation_total_runtime = 64
 
 #win animation constants
-win_animation_total_runtime = 120
+win_animation_total_runtime = 240
 
 #constructor arguments for sprites
 
@@ -65,7 +65,7 @@ mover_filename = "graphics/mover_base.png"
 mover_top = 150
 mover_bottom = 450
 mover_speed = 2
-mover_avg_transition = 10
+mover_avg_transition = 30
 mover_args = (mover_filename, mover_speed, mover_top, mover_bottom, mover_avg_transition)
 
 spinner_filename = "graphics/test_arrow2.png"
@@ -108,11 +108,22 @@ firing_cannon_speed = 9
 firing_cannon_args = (firing_cannon_filename, firing_cannon_speed)
 
 #ion field
-ion_top = 0
-ion_bot = height
 ion_left = 250
-ion_right = 400
+ion_top = 0
+ion_width = 150
+ion_height = height
 ion_delay = 6
 ion_noise_width = 15
 ion_noise_height = 2
-ion_field_args = (ion_top, ion_bot, ion_left, ion_right, ion_noise_width, ion_noise_height, ion_delay)
+ion_field_args = (ion_left, ion_top, ion_width, ion_height, ion_noise_width, ion_noise_height, ion_delay)
+
+#explosion field (full-width shrinking ion field)
+exp_left = 0
+exp_top = 100
+exp_width = width
+exp_height = 400
+exp_delay = 6
+exp_noise_width = 15
+exp_noise_height = 2
+exp_rate = 2
+exp_field_args = (exp_left, exp_top, exp_width, exp_height, exp_noise_width, exp_noise_height, exp_delay, exp_rate)

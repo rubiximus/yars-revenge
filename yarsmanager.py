@@ -11,7 +11,6 @@ from gamestate import GameManager
 from title import Title
 from infoscreen import InfoScreen
 from level import Level
-from levelends import DeathAnimation, WinAnimation
 
 class YarsManager(GameManager):
     """YarsManager is a GameManager which provides universal methods to change state.

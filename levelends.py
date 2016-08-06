@@ -18,6 +18,7 @@ from formations import formation, formation_center
 from enemy_shield import EnemyShield
 from homing_bullet import HomingBullet
 from cannon import Cannon
+from shrinking_ion_field import ShrinkingIonField
 
 class DeathAnimation(GameState):
     """Plays an animation where the player spins around in a circle
@@ -63,12 +64,14 @@ class WinAnimation(GameState):
     """All sprites but the player disappear. The player has free movement for a few seconds.
     """
 
-    def __init__(self, manager, player, total_runtime):
+    def __init__(self, manager, player, total_runtime, explosion_args):
         self.manager = manager
         self.player = player
 
         self.tick = 0
         self.total_runtime = total_runtime
+
+        self.explosion = ShrinkingIonField(*explosion_args)
 
 
     def update(self):
@@ -78,6 +81,7 @@ class WinAnimation(GameState):
             self.manager.next_level()
             
         self.player.update()
+        self.explosion.update()
 
     
     def handle_events(self, events, keys):
@@ -86,4 +90,5 @@ class WinAnimation(GameState):
 
 
     def draw(self, screen):
+        self.explosion.draw(screen)
         self.player.draw(screen)
