@@ -62,5 +62,3 @@ class IonField(Sprite):
             for row in range(0, self.image.get_height(), self.noise_height):
                 c = choice(COLORS)
                 draw.rect(self.image, c, Rect(col, row, self.noise_width, self.noise_height))
-
-
